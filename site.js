@@ -47,7 +47,8 @@
   const lb=$('.lb');
   if(lb){
     const im=$('img',lb);
-    $$('.gallery figure img').forEach(i=>i.parentElement.addEventListener('click',()=>{ im.src=i.src; lb.classList.add('open'); }));
+    let dragged=false; addEventListener('mousedown',()=>{dragged=false}); addEventListener('mousemove',e=>{ if(e.buttons) dragged=true; });
+    $$('.gallery figure img').forEach(i=>i.parentElement.addEventListener('click',()=>{ if(dragged) return; im.src=i.src; lb.classList.add('open'); }));
     lb.addEventListener('click',()=>lb.classList.remove('open'));
     addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
   }
@@ -128,6 +129,27 @@
     const pb=f.querySelector('.yt-play'); if(pb) pb.addEventListener('click',go);
     $$('.yt-cue',f).forEach(c=>c.addEventListener('click',e=>{ e.stopPropagation(); ytLoad(f,+c.dataset.set); }));
   });
+  // photo slideshow: same carousel mechanics + dots + gentle autoplay (pauses on any interaction)
+  $$('.slideshow').forEach(blk=>{
+    const g=$('.gallery',blk), sl=$$('figure',g), count=$('.w-count',blk), dots=$('.ss-dots',blk); if(!sl.length) return;
+    sl.forEach(()=>dots.appendChild(document.createElement('i')));
+    let idx=0, timer=null;
+    const paint=()=>{ count.textContent=(idx+1)+' / '+sl.length; $$('i',dots).forEach((d,k)=>d.classList.toggle('on',k===idx)); };
+    const update=()=>{ const i=Math.round(g.scrollLeft/g.clientWidth); if(i!==idx){ idx=i; } paint(); };
+    const to=i=>{ i=(i+sl.length)%sl.length; g.scrollTo({left:i*g.clientWidth,behavior:document.hidden?'auto':'smooth'}); setTimeout(update,60); setTimeout(update,700); };
+    const stop=()=>{ if(timer){ clearInterval(timer); timer=null; } };
+    const start=()=>{ stop(); timer=setInterval(()=>{ if(!document.hidden) to(idx+1); },4500); };
+    g.addEventListener('scroll',update,{passive:true}); paint();
+    $('.w-prev',blk).addEventListener('click',()=>{ stop(); to(idx-1); }); $('.w-next',blk).addEventListener('click',()=>{ stop(); to(idx+1); });
+    g.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){ stop(); to(idx+1);} if(e.key==='ArrowLeft'){ stop(); to(idx-1);} });
+    ['touchstart','wheel','mousedown'].forEach(ev=>g.addEventListener(ev,stop,{passive:true}));
+    let down=null; g.addEventListener('mousedown',e=>{ down={x:e.clientX,l:g.scrollLeft,t:Date.now()}; });
+    addEventListener('mousemove',e=>{ if(down){ g.scrollLeft=down.l-(e.clientX-down.x); } });
+    addEventListener('mouseup',e=>{ if(down){ const moved=Math.abs(e.clientX-down.x)>8; down=null; if(moved){ to(Math.round(g.scrollLeft/g.clientWidth)); } } });
+    addEventListener('resize',()=>g.scrollTo({left:idx*g.clientWidth}));
+    start();
+  });
+
   // one carousel per .watch-block
   $$('.watch-block').forEach(blk=>{
     const wg=$('.watch-grid',blk), sl=$$('.yt',wg), count=$('.w-count',blk); if(!wg||!sl.length) return;
