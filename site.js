@@ -106,7 +106,7 @@
     $$('.yt-cue',f).forEach(c=>c.classList.toggle('on',+c.dataset.set===(setIdx||0)));
     const boot=()=>{
       ytPlayer=new YT.Player(host,{videoId:f.dataset.id,playerVars:{autoplay:1,start:start,rel:0,modestbranding:1,color:'white',playsinline:1},
-        host:'https://www.youtube-nocookie.com',
+        host:'https://www.youtube.com',
         events:{onReady:e=>{ e.target.playVideo(); },
           onStateChange:e=>{
             if(!sets.length) return;
