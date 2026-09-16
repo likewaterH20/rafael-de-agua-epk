@@ -91,12 +91,14 @@ p{margin:0 0 1em}
 
 /* position */
 .position{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(32px,6vw,96px)}
-.yesno{display:grid;grid-template-columns:1fr 1fr;gap:32px;border-top:1px solid var(--line);padding-top:28px}
+.yesno{display:grid;grid-template-columns:1fr;gap:28px;border-top:1px solid var(--line);padding-top:28px}
 .yesno h4{margin:0 0 16px;font-size:12px;letter-spacing:.26em;text-transform:uppercase;font-weight:400}
 .yesno .yes h4{color:var(--gold)}
 .yesno .no h4{color:var(--paper-2)}
 .yesno ul{list-style:none;margin:0;padding:0}
-.yesno li{padding:11px 0;border-bottom:1px solid rgba(239,230,214,.08);font-size:17px}
+.yesno .yes ul{display:flex;flex-wrap:wrap;gap:8px 0;align-items:baseline}
+.yesno li{font-family:var(--display);font-size:clamp(20px,1.9vw,26px);line-height:1.2;padding:0}
+.yesno li+li::before{content:"\25C6";font-family:var(--body);font-size:8px;color:var(--gold);margin:0 16px;vertical-align:middle}
 .yesno .no-line{margin:0;padding:10px 0;font-family:var(--display);font-style:italic;font-size:clamp(22px,2.2vw,30px);line-height:1.2;color:var(--paper-2);text-decoration:line-through;text-decoration-color:rgba(230,178,77,.6);text-decoration-thickness:1px}
 .quote{font-family:var(--display);font-style:italic;font-size:clamp(28px,3.4vw,48px);line-height:1.15;color:var(--paper)}
 .quote b{font-weight:400;color:var(--gold)}
