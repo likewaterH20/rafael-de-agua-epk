@@ -65,6 +65,12 @@ OG and Twitter tags on both pages carry **absolute** `https://likewaterh20.githu
 
 Test this with a stubbed `window.YT`, never a real embed — it sounds on his speakers before any mute lands.
 
+🚨 `ytUnload` must only tear down `ytPoll` / `ytPlayer` when `ytFig === f`. It used to clear the interval unconditionally, so unloading any off-screen carousel slide silently stopped the set-to-set hand-off of the video that was playing.
+
+**Reveal, and the room loop, both use a rect-on-scroll check on purpose.** IntersectionObserver does not fire in a hidden or backgrounded tab, and the browser pauses an off-screen muted video — the loop was getting stuck on its poster frame. Don't "modernise" either one back to IO.
+
+**Press kit.** Bio, long-bio toggle and the facts row only. The Downloads column (one-sheet, press photos, logo pack, rider mailto) was removed Sep 22 at his request; the files still exist in `downloads/` and still serve, so restoring the links is a small edit.
+
 **In the room.** A 21 s muted 16:9 loop cut from his phone clip (5.9 MB) on top, with the 11 white-93-jersey photos (real shots plus three renders) **underneath as a free-scrolling strip** of `clamp(150px,19vw,210px)` thumbs (84px was his "too small"). Whole block is capped at 760px, the same column as the mixes and venues. No dots, counter, arrows, paging or autoplay — he asked to "just scroll through". Drag, wheel, arrow keys and touch all move it; the wheel handler releases the page at either end so it never traps the scroll. Click opens the lightbox.
 
 **Reveal animation** uses a scroll rect check, not IntersectionObserver (unreliable in hidden tabs). `?shot=1` on any page reveals everything and caps the hero at 900px for full-page captures.
