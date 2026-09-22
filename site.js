@@ -5,8 +5,6 @@
 
   // nav state
   const nav=$('.nav');
-  const onScroll=()=>nav.classList.toggle('scrolled',scrollY>40);
-  addEventListener('scroll',onScroll,{passive:true});onScroll();
 
   // active nav link by section
   const links=$$('.nav a[href^="#"]');

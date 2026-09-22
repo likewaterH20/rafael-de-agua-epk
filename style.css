@@ -44,8 +44,7 @@ p{margin:0 0 1em}
 .num{font-family:var(--display);font-style:italic;color:var(--gold);font-size:14px;letter-spacing:.05em}
 
 /* nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:18px var(--gutter);mix-blend-mode:difference;transition:padding .4s}
-.nav.scrolled{padding:12px var(--gutter)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:18px var(--gutter);mix-blend-mode:difference}
 .nav .mark img{height:22px;width:auto}
 .nav ul{list-style:none;margin:0;padding:0;display:flex;gap:clamp(14px,2.4vw,34px)}
 .nav li a{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#fff;position:relative;padding:6px 0}
