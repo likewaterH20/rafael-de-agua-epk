@@ -25,7 +25,7 @@ Every placeholder on the site has a gold dashed frame and a label. The footer bu
 
 ## To make
 - [x] Como El Agua (Edit) preview cut 9/15 (42 s from 0:30 of `agua = la isla RMIX.wav`)
-- [ ] Originals player REMOVED 9/22 ("i need to work on that"); previews for Blue Light + Como El Agua still in `assets/`, re-add when he is ready
+- [ ] A third original preview when one is bounced (Untitled 03 placeholder removed)
 - [x] Blue Light, Como El Agua, Give 'Em Flowers, WATER DJ SETS covers = typographic CSS covers (9/15); swap for artwork any time
 - [ ] Give 'Em Flowers streaming link when released
 

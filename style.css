@@ -105,7 +105,7 @@ p{margin:0 0 1em}
 @media (max-width:900px){.yesno li{font-size:16px}}
 
 /* sound */
-.sound{display:grid;grid-template-columns:1fr;gap:0;max-width:760px}
+.sound{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(32px,6vw,96px);align-items:start}
 .genres{list-style:none;margin:0;padding:0;counter-reset:g}
 .genres li{display:grid;grid-template-columns:36px 1fr auto;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-family:var(--display);font-size:clamp(20px,2vw,28px);line-height:1;transition:padding-left .4s}
 .genres li:hover{padding-left:10px}
@@ -129,7 +129,7 @@ p{margin:0 0 1em}
 .player.on .bars i{background:var(--gold)}
 .seek{height:2px;background:rgba(239,230,214,.12);position:relative;cursor:pointer;margin-bottom:8px}
 .seek b{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--gold)}
-
+@media (max-width:900px){.sound{grid-template-columns:1fr}}
 
 /* mixes (minimal) */
 .mixes{margin-top:clamp(40px,5vw,72px);border-top:1px solid var(--line);padding-top:clamp(24px,3vw,40px);max-width:760px}
