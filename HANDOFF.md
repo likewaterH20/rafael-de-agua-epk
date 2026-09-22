@@ -1,7 +1,7 @@
 # Rafael De Agua EPK — Handoff
 
 Luxury DJ / Producer electronic press kit for Rafael De Agua (LIKEWTER). Static site, no build step, no framework.
-**LIVE: https://likewaterh20.github.io/rafael-de-agua-epk/** (GitHub Pages, repo `likewaterH20/rafael-de-agua-epk`, deployed Sep 22 2026 so he could send it to a CEO).
+**LIVE: https://rafaeldeagua.com** — his own domain, HTTPS enforced. GitHub Pages, repo `likewaterH20/rafael-de-agua-epk`, domain at Porkbun (account `deagua`, renews ~$11.08/yr, expires 2027-09-22). `http://`, `www.` and the old `likewaterh20.github.io/rafael-de-agua-epk` all redirect to the apex. Deployed Sep 22 2026 so he could send it to a CEO.
 
 ## Folder
 
@@ -44,6 +44,8 @@ gh api -X POST repos/likewaterH20/rafael-de-agua-epk/pages -f build_type=legacy 
 Quote the `source[...]` args or zsh eats the brackets. Pages 404s for about 70 seconds after you enable it, so poll until 200.
 
 **Updating it now is just `git push`** — Pages rebuilds in a minute or two.
+
+🚨 **Never unset/re-set the custom domain to hurry a certificate.** GitHub commits `Delete CNAME` + `Create CNAME` to the repo itself, which rejects your next push and errored three builds in a row here. If it has happened: `git pull --rebase origin main`, push, then `gh api -X POST repos/likewaterH20/rafael-de-agua-epk/pages/builds` and poll `pages/builds/latest`.
 
 Verify by Content-Type, never by status alone (a 200 with the wrong type means a fallback):
 
