@@ -8,7 +8,7 @@ Last state: Sep 22 2026, git head `Revert "Remove the originals player"`. Not de
 ```
 rafael-de-agua-epk/
   index.html          DJ page (hero, position, sound + DJ sets + watch, in the room, press kit, bookings)
-  producer.html       Producer page (works, services, process, enquiries)
+  producer.html       Producer page — a "Coming soon" holding card since Sep 22 (old full page: git e6e26d5)
   style.css           all styling, CSS variables at the top
   site.js             all behaviour (players, carousels, slideshow, reveal)
   assets/             web-sized images, audio previews, the room loop, YouTube thumbnails
@@ -53,7 +53,7 @@ Then verify the live URL serves `style.css` with `text/css` and the PDF with `ap
 
 Test this with a stubbed `window.YT`, never a real embed — it sounds on his speakers before any mute lands.
 
-**In the room.** A 21 s muted 16:9 loop cut from his phone clip (5.9 MB) on top, with the 11 white-93-jersey photos (real shots plus three renders) **underneath as a free-scrolling strip** of 84–116px thumbs. Whole block is capped at 760px, the same column as the mixes and venues. No dots, counter, arrows, paging or autoplay — he asked to "just scroll through". Drag, wheel, arrow keys and touch all move it; the wheel handler releases the page at either end so it never traps the scroll. Click opens the lightbox.
+**In the room.** A 21 s muted 16:9 loop cut from his phone clip (5.9 MB) on top, with the 11 white-93-jersey photos (real shots plus three renders) **underneath as a free-scrolling strip** of `clamp(150px,19vw,210px)` thumbs (84px was his "too small"). Whole block is capped at 760px, the same column as the mixes and venues. No dots, counter, arrows, paging or autoplay — he asked to "just scroll through". Drag, wheel, arrow keys and touch all move it; the wheel handler releases the page at either end so it never traps the scroll. Click opens the lightbox.
 
 **Reveal animation** uses a scroll rect check, not IntersectionObserver (unreliable in hidden tabs). `?shot=1` on any page reveals everything and caps the hero at 900px for full-page captures.
 
@@ -72,6 +72,7 @@ Owed by Rafael:
 
 ## Decisions he made (do not undo)
 
+- Producer page is a Coming soon card, his call on Sep 22. Do not restore the works/services/process page without him asking.
 - Not booked for: one struck line, "Sweet sixteens, weddings, karaoke, artist shows."
 - Hero eyebrow: "DJ / Producer". Nav: DJ Sets · Watch · Position · Live · Press Kit · Producer · Book.
 - Sound list: World Music first (Signature), no Melodic Techno.
