@@ -127,32 +127,28 @@
   }
 
 
-  // ---- artist image slider: greyscale until you open a frame ----
-  const ab=$('.artist-block');
-  if(ab){
-    const row=$('.artist-row',ab), figs=$$('figure',row), count=$('.a-count',ab);
-    const lbx=$('.lb'), lbi=lbx&&$('img',lbx);
-    const step=()=>figs.length?figs[0].getBoundingClientRect().width+parseFloat(getComputedStyle(row).gap||0):row.clientWidth;
-    let idx=0;
-    const paint=()=>{ idx=Math.max(0,Math.min(figs.length-1,Math.round(row.scrollLeft/step())));
-      count.textContent=(idx+1)+' / '+figs.length; };
-    const to=i=>{ i=Math.max(0,Math.min(figs.length-1,i));
-      row.scrollTo({left:i*step(),behavior:document.hidden?'auto':'smooth'}); setTimeout(paint,60); setTimeout(paint,600); };
-    row.addEventListener('scroll',paint,{passive:true}); paint();
-    $('.a-prev',ab).addEventListener('click',()=>to(idx-1));
-    $('.a-next',ab).addEventListener('click',()=>to(idx+1));
-    row.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();to(idx+1);} if(e.key==='ArrowLeft'){e.preventDefault();to(idx-1);} });
-    addEventListener('resize',()=>row.scrollTo({left:idx*step()}),{passive:true});
-    let down=null;
-    row.addEventListener('mousedown',e=>{ down={x:e.clientX,l:row.scrollLeft,moved:false}; row.classList.add('drag'); });
-    addEventListener('mousemove',e=>{ if(!down) return; if(Math.abs(e.clientX-down.x)>4) down.moved=true; row.scrollLeft=down.l-(e.clientX-down.x); });
-    addEventListener('mouseup',()=>{ if(down){ const m=down.moved; down=null; row.classList.remove('drag'); if(m) to(Math.round(row.scrollLeft/step())); } });
-    // click a frame: it comes into colour and opens full size
-    figs.forEach(f=>f.addEventListener('click',()=>{
-      if(row.classList.contains('drag')) return;
-      f.classList.add('lit');
-      if(lbx&&lbi){ lbi.src=$('img',f).src; lbx.classList.add('open'); }
-    }));
+  // ---- artist image: cinema frame ----
+  // one shot at a time, slow drift, auto crossfade. Greyscale until he clicks the stage.
+  const stage=$('#cine-stage');
+  if(stage){
+    const shots=$$('img',stage), rail=$('#cine-rail'), cap=$('#cine-cap');
+    let i=0, timer=null;
+    const go=k=>{ i=(k+shots.length)%shots.length;
+      shots.forEach((s,x)=>s.classList.toggle('on',x===i));
+      $$('button',rail).forEach((b,x)=>b.classList.toggle('on',x===i)); };
+    const restart=()=>{ clearInterval(timer);
+      if(!calm) timer=setInterval(()=>{ if(!document.hidden) go(i+1); },5600); };
+    shots.forEach((s,k)=>{
+      const b=document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Frame '+(k+1));
+      const im=document.createElement('img'); im.src=s.src; im.alt=''; b.appendChild(im);
+      b.addEventListener('click',e=>{ e.stopPropagation(); go(k); restart(); });
+      rail.appendChild(b);
+    });
+    go(0); restart();
+    stage.addEventListener('click',()=>{
+      const lit=stage.classList.toggle('lit');
+      cap.textContent=lit?'Colour \u00b7 click to go back':'Click the frame for colour'; });
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) clearInterval(timer); else restart(); });
   }
 
   // ---- mixes: hidden SoundCloud widget driven by our own list ----
