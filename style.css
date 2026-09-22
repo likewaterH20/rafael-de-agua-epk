@@ -8,6 +8,7 @@
   --accent:#00a8a2;        /* the lockup teal, lifted so it reads on black */
   --accent-deep:#008480;   /* exact colour sampled from the LIKEWTER rule */
   --line:rgba(0,168,162,.26);
+  --gold-og:#e6b24d;       /* the original gold — kept for the hero eyebrow + "De Agua" only */
   --gold:var(--accent);    /* alias: every existing var(--gold) now resolves to the accent */
   --gold-2:#7fb9b5;
   --teal:#9ac0c4;
@@ -73,9 +74,10 @@ p{margin:0 0 1em}
 .hero-copy{padding:140px var(--gutter) 96px;position:relative;z-index:2}
 .hero-title{font-size:clamp(64px,11vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
 /* each letter moves on its own — the name is water */
-.hero-title .ch{display:inline-block;will-change:transform;transition:color .5s}
-.hero-title:hover .ch{color:#fff}
-.hero-title .l2:hover .ch,.hero-title .l2 .ch{color:inherit}
+.hero-title .ch{display:inline-block;will-change:transform}
+/* the hero keeps the original gold; teal is the accent everywhere else on the page */
+.hero .eyebrow{color:var(--gold-og)}
+.hero-title em,.hero-title .l2 .ch{color:var(--gold-og)}
 .nav .book{transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
 .hero-title .l2{display:block;padding-left:.9em}
 .hero-sub{max-width:44ch;font-size:clamp(17px,1.4vw,21px);color:var(--paper)}
