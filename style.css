@@ -153,23 +153,9 @@ p{margin:0 0 1em}
 .mixplayer{position:relative}
 .mx-now{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:18px;align-items:center;margin-bottom:14px}
 .mx-info{min-width:0}
-/* the transport is a deck, not a play triangle: a record that spins and a tonearm that drops */
-.mx-big{width:56px;height:56px;padding:0;border:0;background:none;position:relative;cursor:pointer}
-.deck-disc{position:absolute;inset:0;border-radius:50%;
-  background:radial-gradient(circle at 50% 50%,var(--gold) 0 19%,#0b0809 19% 22%,#191413 22% 100%);
-  box-shadow:0 0 0 1px rgba(230,178,77,.5)}
-.deck-disc::after{content:"";position:absolute;inset:7px;border-radius:50%;
-  background:repeating-radial-gradient(circle at 50% 50%,rgba(239,230,214,.11) 0 1px,transparent 1px 4px)}
-.deck-disc i{position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:#0b0809}
-.mixplayer.playing .deck-disc{animation:deckspin 2.6s linear infinite}
-@keyframes deckspin{to{transform:rotate(360deg)}}
-/* tonearm: parked off the record, swings down onto it while playing */
-.deck-arm{--rot:42deg;position:absolute;right:-9px;top:1px;width:2px;height:33px;background:var(--paper-2);border-radius:1px;
-  transform-origin:50% 2px;transform:rotate(var(--rot));transition:transform .55s cubic-bezier(.2,.8,.2,1)}
-.deck-arm::before{content:"";position:absolute;top:-4px;left:-3px;width:8px;height:8px;border-radius:50%;background:var(--paper-2)}
-.deck-arm::after{content:"";position:absolute;bottom:-3px;left:-2.5px;width:7px;height:7px;background:var(--gold);clip-path:polygon(50% 100%,0 0,100% 0)}
-.mx-big:hover .deck-arm{--rot:34deg}
-.mixplayer.playing .deck-arm{--rot:14deg}
+.mx-big{width:56px;height:56px;border-radius:50%;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:transform .2s}
+.mx-big:hover{transform:scale(1.05)}
+.mx-big i{font-style:normal}
 .mx-title{font-family:var(--body);font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mx-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);margin-top:4px}
 .mx-time{font-size:13px;letter-spacing:.12em;color:var(--paper-2);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -325,8 +311,7 @@ body.hide-ph .ph-inline{color:inherit;border:0}
 .rv{opacity:0;transform:translateY(22px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
 .rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.marquee span{animation:none}body::before{animation:none}
-  .mixplayer.playing .deck-disc{animation:none}.deck-arm{transition:none}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.marquee span{animation:none}body::before{animation:none}}
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:60;background:rgba(11,8,9,.94);display:none;place-items:center;padding:4vw;cursor:zoom-out}
