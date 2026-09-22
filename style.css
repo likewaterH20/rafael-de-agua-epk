@@ -16,8 +16,8 @@
   --magenta:#8c5b97;
   --paper:#efe6d6;
   --paper-2:#cfc4b2;
-  --display:"Bodoni Moda",Didot,"Times New Roman",serif;
-  --body:"Jost","Futura","Avenir Next",system-ui,sans-serif;
+  --display:"Instrument Serif",Didot,Georgia,serif;
+  --body:"Space Grotesk","Inter",system-ui,sans-serif;
   --gutter:clamp(20px,5vw,72px);
   --stack:clamp(26px,3.4vw,48px);  /* the ONE vertical gap between blocks in a section */
 }
