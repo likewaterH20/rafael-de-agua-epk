@@ -165,8 +165,11 @@ p{margin:0 0 1em}
 .mx-big:active{transform:scale(.95)}
 .mx-big i{font-style:normal;position:relative;z-index:2;line-height:1;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .mx-big:hover i{transform:scale(1.15)}
+/* empty until something is playing — no "Press play" instruction */
 .mx-title{font-family:var(--body);font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mx-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);margin-top:4px}
+.mx-title:empty{display:none}
+.mx-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2)}
+.mx-title:not(:empty)+.mx-sub{margin-top:4px}
 .mx-time{font-size:13px;letter-spacing:.12em;color:var(--paper-2);font-variant-numeric:tabular-nums;white-space:nowrap}
 /* scrub bar: 2px line, but a 32px tall hit area so a long mix is easy to skip through */
 /* border-box is global: height must be 2px of track + 30px of padding, or the content box is 0 and nothing paints */
