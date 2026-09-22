@@ -131,7 +131,7 @@
   // one shot at a time, slow drift, auto crossfade. Greyscale until he clicks the stage.
   const stage=$('#cine-stage');
   if(stage){
-    const shots=$$('img',stage), rail=$('#cine-rail'), cap=$('#cine-cap');
+    const shots=$$('img',stage), rail=$('#cine-rail');
     let i=0, timer=null;
     const go=k=>{ i=(k+shots.length)%shots.length;
       shots.forEach((s,x)=>s.classList.toggle('on',x===i));
@@ -145,9 +145,6 @@
       rail.appendChild(b);
     });
     go(0); restart();
-    stage.addEventListener('click',()=>{
-      const lit=stage.classList.toggle('lit');
-      cap.textContent=lit?'Colour \u00b7 click to go back':'Click the frame for colour'; });
     document.addEventListener('visibilitychange',()=>{ if(document.hidden) clearInterval(timer); else restart(); });
   }
 
