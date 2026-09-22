@@ -236,8 +236,9 @@ p{margin:0 0 1em}
 /* bookings: same black + gold + 760px column as every other section, no inverted panel */
 .contact{border-top:1px solid var(--line)}
 .contact-grid{max-width:760px}
-.contact a.big{font-family:var(--display);font-style:italic;color:var(--gold);font-size:clamp(26px,4vw,52px);line-height:1.05;display:inline-block;transition:opacity .2s}
-.contact a.big:hover{opacity:.75}
+/* the one string a booker has to read and retype: Jost, not italic Bodoni */
+.contact a.big{font-family:var(--body);font-weight:500;font-style:normal;color:var(--gold);font-size:clamp(21px,3.2vw,36px);letter-spacing:.005em;line-height:1.2;display:inline-block;padding-bottom:8px;border-bottom:1px solid rgba(230,178,77,.45);transition:border-color .2s,opacity .2s;word-break:break-word}
+.contact a.big:hover{border-bottom-color:var(--gold);opacity:.85}
 .contact-grid .muted{margin:18px 0 0;max-width:44ch}
 @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
 
