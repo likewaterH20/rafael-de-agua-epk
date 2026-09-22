@@ -153,9 +153,17 @@ p{margin:0 0 1em}
 .mixplayer{position:relative}
 .mx-now{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:18px;align-items:center;margin-bottom:14px}
 .mx-info{min-width:0}
-.mx-big{width:56px;height:56px;border-radius:50%;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:transform .2s}
-.mx-big:hover{transform:scale(1.05)}
-.mx-big i{font-style:normal}
+/* De Agua: the play button drops into water. Rings radiate out while it plays, once on hover. */
+.mx-big{width:56px;height:56px;border-radius:50%;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-size:16px;cursor:pointer;display:grid;place-items:center;position:relative;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.mx-big:hover{transform:scale(1.06)}
+.mx-big:active{transform:scale(.94)}
+.mx-big i{font-style:normal;position:relative;z-index:2;transition:letter-spacing .25s}
+.mixplayer.playing .mx-big i{letter-spacing:.14em}
+.mx-big::before,.mx-big::after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--gold);opacity:0;pointer-events:none;z-index:1}
+@keyframes wring{0%{transform:scale(1);opacity:.55}60%{opacity:.16}100%{transform:scale(2.5);opacity:0}}
+.mixplayer.playing .mx-big::before{animation:wring 3s cubic-bezier(.2,.65,.3,1) infinite}
+.mixplayer.playing .mx-big::after{animation:wring 3s cubic-bezier(.2,.65,.3,1) 1.5s infinite}
+.mx-big:hover::before{animation:wring 1.1s ease-out}
 .mx-title{font-family:var(--body);font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mx-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);margin-top:4px}
 .mx-time{font-size:13px;letter-spacing:.12em;color:var(--paper-2);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -311,7 +319,8 @@ body.hide-ph .ph-inline{color:inherit;border:0}
 .rv{opacity:0;transform:translateY(22px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
 .rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.marquee span{animation:none}body::before{animation:none}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.marquee span{animation:none}body::before{animation:none}
+  .mixplayer.playing .mx-big::before,.mixplayer.playing .mx-big::after,.mx-big:hover::before{animation:none}}
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:60;background:rgba(11,8,9,.94);display:none;place-items:center;padding:4vw;cursor:zoom-out}
