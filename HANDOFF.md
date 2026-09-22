@@ -92,6 +92,8 @@ Owed by Rafael:
 
 ## Decisions he made (do not undo)
 
+- Nav: Book is a filled gold button, Art Designs beside it links to **`https://www.wavsd.com`**. Never link the bare `wavsd.com` — the apex still serves his old Smart Productions build.
+- On phones the nav shows DJ Sets · Watch · Art Designs · Book. Producer is desktop-only because five items collided with the logo at 375px.
 - Producer page is a Coming soon card, his call on Sep 22. Do not restore the works/services/process page without him asking.
 - Not booked for: one struck line, "Sweet sixteens, weddings, karaoke, artist shows."
 - Hero eyebrow: "DJ / Producer". Nav: DJ Sets · Watch · Position · Live · Press Kit · Producer · Book.
