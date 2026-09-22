@@ -164,25 +164,20 @@
       if(ytFig===f&&ytPlayer&&ytPlayer.seekTo){ const s=parseSets(f)[i]; if(s){ ytWin=i; ytPlayer.seekTo(s.start,true); ytPlayer.playVideo(); paintCues(f,i); return; } }
       ytLoad(f,i); }));
   });
-  // photo slideshow: same carousel mechanics + dots + gentle autoplay (pauses on any interaction)
+  // photo strip under the room video: free horizontal scroll, no pages, no autoplay. Click still opens the lightbox.
   $$('.slideshow').forEach(blk=>{
-    const g=$('.gallery',blk), sl=$$('figure',g), count=$('.w-count',blk), dots=$('.ss-dots',blk); if(!sl.length) return;
-    sl.forEach(()=>dots.appendChild(document.createElement('i')));
-    let idx=0, timer=null;
-    const paint=()=>{ count.textContent=(idx+1)+' / '+sl.length; $$('i',dots).forEach((d,k)=>d.classList.toggle('on',k===idx)); };
-    const update=()=>{ const i=Math.round(g.scrollLeft/g.clientWidth); if(i!==idx){ idx=i; } paint(); };
-    const to=i=>{ i=(i+sl.length)%sl.length; g.scrollTo({left:i*g.clientWidth,behavior:document.hidden?'auto':'smooth'}); setTimeout(update,60); setTimeout(update,700); };
-    const stop=()=>{ if(timer){ clearInterval(timer); timer=null; } };
-    const start=()=>{ stop(); timer=setInterval(()=>{ if(!document.hidden) to(idx+1); },4500); };
-    g.addEventListener('scroll',update,{passive:true}); paint();
-    $('.w-prev',blk).addEventListener('click',()=>{ stop(); to(idx-1); }); $('.w-next',blk).addEventListener('click',()=>{ stop(); to(idx+1); });
-    g.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){ stop(); to(idx+1);} if(e.key==='ArrowLeft'){ stop(); to(idx-1);} });
-    ['touchstart','wheel','mousedown'].forEach(ev=>g.addEventListener(ev,stop,{passive:true}));
-    let down=null; g.addEventListener('mousedown',e=>{ down={x:e.clientX,l:g.scrollLeft,t:Date.now()}; });
-    addEventListener('mousemove',e=>{ if(down){ g.scrollLeft=down.l-(e.clientX-down.x); } });
-    addEventListener('mouseup',e=>{ if(down){ const moved=Math.abs(e.clientX-down.x)>8; down=null; if(moved){ to(Math.round(g.scrollLeft/g.clientWidth)); } } });
-    addEventListener('resize',()=>g.scrollTo({left:idx*g.clientWidth}));
-    start();
+    const g=$('.gallery',blk); if(!g||!$$('figure',g).length) return;
+    g.addEventListener('keydown',e=>{ const s={ArrowRight:200,ArrowLeft:-200}[e.key];
+      if(s){ e.preventDefault(); g.scrollBy({left:s,behavior:'smooth'}); } });
+    // a vertical wheel/trackpad gesture over the strip scrolls it sideways instead of the page
+    g.addEventListener('wheel',e=>{ if(Math.abs(e.deltaY)<=Math.abs(e.deltaX)) return;
+      const max=g.scrollWidth-g.clientWidth; if(max<=0) return;
+      if((e.deltaY<0&&g.scrollLeft<=0)||(e.deltaY>0&&g.scrollLeft>=max-1)) return;  // let the page take over at the ends
+      e.preventDefault(); g.scrollLeft+=e.deltaY; },{passive:false});
+    let down=null;
+    g.addEventListener('mousedown',e=>{ down={x:e.clientX,l:g.scrollLeft}; g.classList.add('drag'); });
+    addEventListener('mousemove',e=>{ if(down) g.scrollLeft=down.l-(e.clientX-down.x); });
+    addEventListener('mouseup',()=>{ if(down){ down=null; g.classList.remove('drag'); } });
   });
 
   // one carousel per .watch-block
