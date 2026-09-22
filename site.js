@@ -133,7 +133,8 @@
     }
     const i=f.querySelector('iframe'); if(i) i.remove();
     const h=f.querySelector('.yt-host'); if(h) h.remove();
-    f.classList.remove('on'); f.style.cursor=''; $$('.yt-cue',f).forEach(c=>c.classList.remove('on')); };
+    const s=f.querySelector('.yt-shield'); if(s) s.remove();
+    f.classList.remove('on','playing'); f.style.cursor=''; $$('.yt-cue',f).forEach(c=>c.classList.remove('on')); };
   const parseSets=f=>(f.dataset.sets||'').split(',').filter(Boolean).map(x=>{ const [a,b]=x.split('-'); return {start:+a, end:b?+b:null}; });
   const paintCues=(f,i)=>$$('.yt-cue',f).forEach(c=>c.classList.toggle('on',+c.dataset.set===i));
   const ytLoad=(f,setIdx)=>{
@@ -143,12 +144,23 @@
     const sets=parseSets(f); ytWin=setIdx||0; const start=sets.length?sets[ytWin].start:(+f.dataset.start||0);
     const host=document.createElement('div'); host.className='yt-host';
     f.insertBefore(host,f.querySelector('img')); f.classList.add('on'); f.style.cursor='default';
+    // swallows every pointer event so YouTube's hover UI never surfaces; also our play/pause
+    const shield=document.createElement('div'); shield.className='yt-shield';
+    shield.addEventListener('click',()=>{ if(!ytPlayer||ytFig!==f) return;
+      if(f.classList.contains('playing')) ytPlayer.pauseVideo(); else ytPlayer.playVideo(); });
+    f.appendChild(shield);
     paintCues(f,ytWin);
     const boot=()=>{
-      ytPlayer=new YT.Player(host,{videoId:f.dataset.id,playerVars:{autoplay:1,start:start,rel:0,modestbranding:1,color:'white',playsinline:1},
-        host:'https://www.youtube.com',
+      // controls:0 + the shield below = no YouTube chrome at all: no title, no logo,
+      // no red bar, no share, no "More videos". His footage, nothing else.
+      ytPlayer=new YT.Player(host,{videoId:f.dataset.id,
+        playerVars:{autoplay:1,start:start,rel:0,modestbranding:1,playsinline:1,controls:0,disablekb:1,fs:0,iv_load_policy:3},
+        host:'https://www.youtube-nocookie.com',
         events:{onReady:e=>{ ytFig=f; e.target.playVideo(); },
           onStateChange:e=>{
+            // 1 playing, 2 paused, 0 ended — our poster covers every non-playing state
+            f.classList.toggle('playing',e.data===1);
+            if(e.data===0||e.data===2) f.classList.remove('playing');
             if(!sets.length) return;
             if(e.data===YT.PlayerState.PLAYING && !ytPoll){
               // Track the active window by index instead of re-deriving it from the clock every tick:
