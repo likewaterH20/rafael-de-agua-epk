@@ -1,116 +1,164 @@
 # Rafael De Agua EPK — Handoff
 
-Luxury DJ / Producer electronic press kit for Rafael De Agua (LIKEWTER). Static site, no build step, no framework.
-**LIVE: https://rafaeldeagua.com** — his own domain, HTTPS enforced. GitHub Pages, repo `likewaterH20/rafael-de-agua-epk`, domain at Porkbun (account `deagua`, renews ~$11.08/yr, expires 2027-09-22). `http://`, `www.` and the old `likewaterh20.github.io/rafael-de-agua-epk` all redirect to the apex. Deployed Sep 22 2026 so he could send it to a CEO.
+Luxury DJ / Producer electronic press kit. Static site, no build step, no framework.
+Last updated Sep 22 2026.
 
-## Folder
+---
 
-```
-rafael-de-agua-epk/
-  index.html          DJ page (hero, position, sound + DJ sets + watch, in the room, press kit, bookings)
-  producer.html       Producer page — a "Coming soon" holding card since Sep 22 (old full page: git e6e26d5)
-  style.css           all styling, CSS variables at the top
-  site.js             all behaviour (players, carousels, slideshow, reveal)
-  assets/             web-sized images, audio previews, the room loop, YouTube thumbnails
-  assets/real/        66 graded photos from the Jersey City Public Library party (live-92xx.jpg)
-  downloads/          one-sheet PDF, press-photos zip, logo-pack zip
-  tools/onesheet.py   regenerates the one-sheet PDF (facts at the top of the file), fonts in tools/fonts/
-  tools/serve.py      preview server for the desktop app's Browser pane
-  CONTENT_TODO.md     what is real, what is still owed
-```
+## 🚨 Read this first: 18 commits are NOT pushed
 
-## Run it locally
+**The live site is running the version from `f873c7f`. Everything after that is local only.**
 
-Any static server works. From the project folder:
+He said: *"dont make anything live yet until we get a style and aesthetics down"* — the whole aesthetic pass (fonts, palette, spacing, section order, the new gallery images) is committed locally and deliberately unpushed.
 
 ```bash
-python3 -m http.server 4520
+git log --oneline origin/main..HEAD   # the queue
+git push origin main                  # ships the whole batch — ONLY on his word
 ```
 
-Open http://localhost:4520. Open `index.html` from Finder does NOT work: the SoundCloud and YouTube players need an http origin.
+Do not push without him saying so. Deploy cadence follows the phase of work: **fixing → push each change, exploring → hold.**
 
-In the Claude desktop app the Browser pane cannot read this folder, so the preview runs from a mirror:
-copy `tools/serve.py` and `rsync` the project into the session scratchpad as `serve.py` + `site/`, then start the `epk` launch config (port 4520). The mirror must be re-synced after every edit.
+---
 
-## Deploy
+## Live
 
-Already done — this is how it was set up, kept for reference. GitHub Pages, same pattern as the Yum Yum pitch. The `likewaterH20` GitHub account is signed in with `gh`.
+**https://rafaeldeagua.com** — GitHub Pages, repo `likewaterH20/rafael-de-agua-epk`, HTTPS enforced.
+`http://`, `www.` and the old `likewaterh20.github.io/rafael-de-agua-epk` all redirect to the apex.
 
-```bash
-gh repo create rafael-de-agua-epk --public --source=. --push
-gh api -X POST repos/likewaterH20/rafael-de-agua-epk/pages -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/'
-```
+Domain at **Porkbun**, account `deagua`, $11.08/yr, expires **2027-09-22**.
+🚨 Registered under **jmgoodlife@gmail.com** while the whole site's contact is **supergoodwav@gmail.com** — renewal notices go to the former.
 
-Quote the `source[...]` args or zsh eats the brackets. Pages 404s for about 70 seconds after you enable it, so poll until 200.
-
-**Updating it now is just `git push`** — Pages rebuilds in a minute or two.
-
-🚨 **Never unset/re-set the custom domain to hurry a certificate.** GitHub commits `Delete CNAME` + `Create CNAME` to the repo itself, which rejects your next push and errored three builds in a row here. If it has happened: `git pull --rebase origin main`, push, then `gh api -X POST repos/likewaterH20/rafael-de-agua-epk/pages/builds` and poll `pages/builds/latest`.
-
-Verify by Content-Type, never by status alone (a 200 with the wrong type means a fallback):
+Updating the live site is just `git push`; Pages rebuilds in a minute or two. Verify by **Content-Type, not status**:
 
 ```bash
 curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://rafaeldeagua.com/style.css
 ```
 
-OG and Twitter tags on both pages carry **absolute** `https://rafaeldeagua.com/...` URLs and point at `assets/og-card.jpg` (1200×630, generated from `gallery-02.jpg`). If the site ever moves again, those absolute URLs and `og:url` must ALL be updated or the link preview breaks.
+🚨 **His browser caches hard.** After a push, check with `?fresh=1` and tell him **Cmd+Shift+R** — he has concluded a good deploy failed because of this.
+🚨 **Never unset/re-set the Pages custom domain to hurry a certificate.** GitHub commits `Delete CNAME` / `Create CNAME` into the repo, which rejects your next push and errored three builds in a row. Just wait.
+
+---
+
+## Folder
+
+```
+index.html          the site
+producer.html       "Coming soon" holding card
+style.css           all styling, tokens at the top
+site.js             all behaviour
+assets/             web-sized images, audio previews, the room loop, YouTube thumbs
+assets/real/        66 graded photos from the Jersey City Library party (live-92xx.jpg)
+downloads/          one-sheet PDF, press-photos zip, logo-pack zip (no longer linked from the site)
+tools/onesheet.py   regenerates the one-sheet PDF, fonts in tools/fonts/
+tools/serve.py      preview server
+CONTENT_TODO.md     what is real, what is owed
+```
+
+## Run it
+
+```bash
+python3 -m http.server 4520
+```
+
+Opening `index.html` from Finder does NOT work — the SoundCloud and YouTube players need an http origin.
+
+In the Claude desktop app the Browser pane can't read this folder, so the preview runs from a mirror: copy `tools/serve.py` and `rsync` the project into the session scratchpad as `serve.py` + `site/`, then start the `epk` launch config. **Re-sync after every edit.**
+🚨 `preview_start` servers are **killed when the turn ends**. Run the mirror server as a background Bash process instead, or he'll hit `ERR_CONNECTION_REFUSED` the moment you say it's ready.
+🚨 The launch entry hardcodes an old session's scratchpad path — repoint it each session. A port reported "in use by another chat" is usually a dead registration with nothing listening; just bump the port.
+
+---
+
+## The design system
+
+Everything is tokens at the top of `style.css`. Change the token, not the instance.
+
+| Token | Value | Job |
+|---|---|---|
+| `--accent` | `#e6b24d` gold | the accent, everywhere |
+| `--teal` | `#00a8a2` | **minimal** — hairlines + the nav underline only |
+| `--line` | `rgba(0,168,162,.2)` | every hairline |
+| `--stack` | `clamp(26px,3.4vw,48px)` | **the one vertical gap**, via `.sec>*+*` |
+| `--gutter` | `clamp(20px,5vw,72px)` | page margin |
+| `--name` | Bodoni Moda | **the hero name only** |
+| `--display` | Instrument Serif | section titles |
+| `--body` | Space Grotesk | everything read |
+
+**Locked decisions — do not undo without him asking:**
+
+- **Gold is the accent, teal stays a whisper.** He tried a full teal accent and pulled it back: *"lets keep it how it was with the yellow accent and keep the blue accent very minimal"*.
+- **Bodoni is for the hero name only.** Its hairlines vanish at label sizes on black; at 190px they're the point.
+- **No two-tone headings.** Section titles are one colour; emphasis is the italic, not a second colour.
+- **One label style:** 12px / `.2em` uppercase. `.3em` only for the wordmark and marquee.
+- **Every section: same padding, same `--stack` gaps, same 760px column, same 42px left edge.**
+- **The LIKEWTER brush logo is OUT of the nav** (typographic RDA wordmark, expands to the full name above 1180px). This reverses his earlier "keep this static right there in its spot" — don't put it back.
+- **Not booked for:** one struck line, "Sweet sixteens, weddings, karaoke, artist shows."
+- **Nav:** DJ Sets · Watch · Press Kit · Producer · **Book** (filled gold) · Art Designs. Producer is desktop-only; five items collided with the wordmark at 375px.
+- **Art Designs → `https://www.wavsd.com`.** 🚨 Never the bare `wavsd.com` — the apex still serves his old Smart Productions build.
+
+## Page order
+
+`01 position · 02 DJ sets (+ Watch + Booked for) · 03 sound · 04 in the room · 05 press kit · 06 bookings`
+
+---
 
 ## How the moving parts work
 
-**DJ sets (SoundCloud, in-page).** A hidden 1px SoundCloud widget iframe (playlist `1967703216`, WATER DJ SETS) is driven by the Widget API from `site.js`. The list is rebuilt from the live playlist on load (top 5 by his playlist order; `data-count`), so renames and reorders on SoundCloud flow through. Three rows show, the "···" reveals the other two (`data-show="3"`). The scrub bar is a 2px line inside a 32px grab zone: click or drag (pointer capture, `seekTo` on pointerup), and ← → = ±30 s, PageUp/Down = ±5 min, Home = 0 once focused. Gotchas: `getSounds()` fills lazily (the code polls until all titles exist), `getDuration()` is stale on PLAY (re-read on progress), and the bar's `height` must include its padding — `box-sizing:border-box` is global, so `height:2px;padding:15px 0` gives a zero-height content box that paints nothing.
+**DJ sets (SoundCloud, in-page).** A hidden 1px widget iframe (playlist `1967703216`, WATER DJ SETS) driven by the Widget API. The list rebuilds from the live playlist on load (top 5, `data-count`), so renames and reorders on SoundCloud flow through. Three rows show, "···" reveals the other two. Gotchas: `getSounds()` fills lazily (the code polls), `getDuration()` is stale on PLAY (re-read on progress).
 
-**Originals player — removed Sep 22** (`4f4d25f`). It was two 45 s previews (`assets/blue-light-preview.mp3`, `assets/como-el-agua-preview.mp3`) with a Web Audio analyser, sitting in the right column of `.sound`. An earlier removal also rewrote the producer cards to "Coming" and he reverted the lot; the second pass touched only the `.player` block and the `.sound` grid rule and stood. The MP3s, the `.player` CSS and the `site.js` player code are all still in the repo, so it can come back with one commit.
+**The play button** is a hairline ring with no fill, and **the ring itself is the progress indicator** — a conic gradient driven by a single `--p` number written per progress tick, masked to a 1px ring. `select()` resets it to 0. There is no "Press play" label; `.mx-title` ships empty with `:empty{display:none}` and only fills once something plays.
 
-**Watch.** Two swipe rows, one carousel each (`.watch-block`): Sounds Sessions live streams first (002, 001, 004), then It's Almost Lunch Time (Ep. 01, 02). YouTube iframes are created only on click. Each live stream figure has `data-sets="start-end,start-end"` in seconds; the YouTube IFrame API polls every 500 ms and jumps from one window to the next, then pauses and clears the poll. The poll advances an **explicit window index** (`ytWin`), not a clock lookup, and re-syncs if the viewer drags YouTube's own bar out of the window. A cue chip on the already-loaded figure **seeks in place** — never rebuild the iframe, that was the "super buggy" jump. **End times are missing** (`1080-,4290-` etc.), so a set plays on into the next DJ. Fill them when he sends the six timestamps; nothing else fixes it.
+**The scrub bar** is a 2px line inside a 32px grab zone: click, drag (pointer capture, `seekTo` on release), ← → ±30s, PageUp/Down ±5min.
+🚨 Its height MUST include its padding — `box-sizing:border-box` is global, so `height:2px;padding:15px 0` gives a **zero-height content box that paints nothing**.
 
-**No YouTube chrome, on purpose.** `controls:0` + `disablekb` + `fs:0` + `iv_load_policy:3` on `youtube-nocookie.com`, a transparent `.yt-shield` over the iframe swallowing pointer events (its click is play/pause), and the poster `<img>` promoted to an overlay that only lifts while `.playing`. The poster is what hides YouTube's title card at startup and the "More videos" end screen on pause — don't go back to `display:none` on it. Because `controls:0` removes YouTube's own scrubber, each loaded figure gets a `.yt-bar` of ours: gold 2px line in a 32px hit area, drag or click, ← → ±15 s, PageUp/Down ±60 s, repainted by a 250 ms `ytTick` that `ytUnload` clears. **It spans the CURRENT SET, not the whole stream** — `[start, end ?? duration]`, clamped at both ends, readout counted within the window, re-spanning when a cue chip switches sets. That is deliberate: a full-length bar would drag a viewer into another DJ's hour. Once the six end times land, the right edge gets tight too.
+**Watch (YouTube).** Two swipe rows: Sounds Sessions (002, 001, 004) then It's Almost Lunch Time. iframes are created only on click.
 
-Test this with a stubbed `window.YT`, never a real embed — it sounds on his speakers before any mute lands. To eyeball the frame, inject a throwaway iframe with the same params **plus `&mute=1` in the URL**, screenshot, remove.
+- **No YouTube chrome, on purpose:** `controls:0` + `disablekb` + `fs:0` + `iv_load_policy:3` on `youtube-nocookie.com`, a transparent `.yt-shield` over the iframe swallowing pointer events (its click is play/pause), and the poster `<img>` promoted to an overlay that only lifts while `.playing`. **The poster is what hides YouTube's title card at startup and the "More videos" end screen on pause — don't revert it to `display:none`.**
+- **Our own scrubber** (`.yt-bar`) because `controls:0` removes theirs. **It spans the CURRENT SET, not the whole stream** — `[start, end ?? duration]`, clamped both ends — so dragging can never land a viewer in another DJ's hour.
+- Each figure has `data-sets="start-end,…"` in seconds. A poll advances an **explicit window index**; 🚨 `ytUnload` must only tear down `ytPoll`/`ytPlayer` when `ytFig === f`, or unloading an off-screen carousel slide kills the hand-off of the video that's actually playing.
+- **End times are still missing** (`1080-,4290-`), so a set plays on into the next DJ and the scrubber can only tighten its left edge. Six timestamps from him fixes it.
+- 🚨 **Test with a stubbed `window.YT`, never a real embed** — it sounds on his speakers before any mute lands. To eyeball the frame, inject a throwaway iframe with the same params **plus `&mute=1`**, screenshot, remove. Reload the page before re-stubbing, or the live player is still the old stub.
 
-🚨 `ytUnload` must only tear down `ytPoll` / `ytPlayer` when `ytFig === f`. It used to clear the interval unconditionally, so unloading any off-screen carousel slide silently stopped the set-to-set hand-off of the video that was playing.
+**In the room.** A 21s muted 16:9 loop on top, with 13 photos underneath as a free-scrolling strip (`clamp(150px,19vw,210px)` thumbs). No dots, counter, arrows, paging or autoplay. Drag, wheel, arrow keys and touch all move it; the wheel handler releases the page at either end. Click opens the lightbox.
 
-**Reveal, and the room loop, both use a rect-on-scroll check on purpose.** IntersectionObserver does not fire in a hidden or backgrounded tab, and the browser pauses an off-screen muted video — the loop was getting stuck on its poster frame. Don't "modernise" either one back to IO.
+**The hero name is water.** `splitChars()` wraps each letter in `.ch` **in JS, never innerHTML**; a rAF loop displaces each letter by its distance from the pointer with a wave travelling outward, then parks itself completely when everything settles. Skipped under `prefers-reduced-motion`. Works on touch.
 
-**Press kit.** Bio, long-bio toggle and the facts row only. The Downloads column (one-sheet, press photos, logo pack, rider mailto) was removed Sep 22 at his request; the files still exist in `downloads/` and still serve, so restoring the links is a small edit.
+**Reveal, and the room loop, both use a rect-on-scroll check on purpose.** IntersectionObserver doesn't fire in a hidden/background tab and the browser pauses off-screen muted video — the loop was sticking on its poster. Don't "modernise" either back to IO.
 
-**In the room.** A 21 s muted 16:9 loop cut from his phone clip (5.9 MB) on top, with the 11 white-93-jersey photos (real shots plus three renders) **underneath as a free-scrolling strip** of `clamp(150px,19vw,210px)` thumbs (84px was his "too small"). Whole block is capped at 760px, the same column as the mixes and venues. No dots, counter, arrows, paging or autoplay — he asked to "just scroll through". Drag, wheel, arrow keys and touch all move it; the wheel handler releases the page at either end so it never traps the scroll. Click opens the lightbox.
+`?shot=1` on any page reveals everything for full-page captures.
 
-**Reveal animation** uses a scroll rect check, not IntersectionObserver (unreliable in hidden tabs). `?shot=1` on any page reveals everything and caps the hero at 900px for full-page captures.
+---
+
+## Gotchas that cost time
+
+- 🚨 **Parse the HTML after any structural edit.** A stray `</div>` is silently repaired by browsers — it survived rendering, console, screenshots and a full four-width QC pass. `html.parser` found it in a second.
+- 🚨 **A background pane tab screenshots ALL BLACK with no error**, and sets `document.hidden`, which pauses muted autoplay and blocks IntersectionObserver. `tabs_select` first, and measure rects before believing an image.
+- 🚨 **Synthetic `PointerEvent`s don't drive pointer logic in the pane** — they fire your own test listener and nothing else. Use the real `computer` hover twice.
+- 🚨 **A higher-specificity rule that re-declares `transform` can silently fail.** Put the varying value in a custom property (`--rot`) and let states set the variable.
+- He reviews in a narrow pane (~590–850px). Never collapse a layout to one column at 600px.
+
+---
 
 ## Content: real vs owed
 
-Real: portraits, LIKEWTER lockups, palette, rooms (Taverna Veranda, Jersey City Fourth of July Festival, Jersey City Public Library, Aruba, NJ festival stages), base (New York & New Jersey), formats (CDJ · Laptop · Vinyl), the mixes, the two episodes, the three streams, the one-sheet, press photos, logo pack, contact (supergoodwav@gmail.com, @likewter, soundcloud.com/likewter, YouTube "W a t e r. tv").
+**Real:** portraits, LIKEWTER lockups, palette, rooms (Taverna Veranda, Jersey City Fourth of July Festival, Jersey City Public Library, Aruba, NJ festival stages), base (New York & New Jersey), formats (CDJ · Laptop · Vinyl), the mixes, the two episodes, the three streams, the one-sheet, press photos, logo pack, contact.
 
-Owed by Rafael:
-- Six set end times for the live streams (002: 18:00 to ?, 1:11:30 to ?; 001: 25:44 to ?, 1:13:10 to ?; 004: 20:00 to ?, 1:23:44 to ?)
-- "Go" or "skip" on the crowd edits for six slides (quoted $0.72 on fal Nano Banana 2; Photoshop Generative Fill is not scriptable on his install)
-- Years active, a press line or quote
-- Set length range (the facts row says 2 – 6 hrs, that is an assumption)
-- Tech rider + stage plot (the site says "sent with every confirmed booking, request by email")
-- Give 'Em Flowers link when released
-- A domain
+**Owed by him:**
 
-## Decisions he made (do not undo)
+- **Six set end times** for the live streams (002: 18:00→?, 1:11:30→?; 001: 25:44→?, 1:13:10→?; 004: 20:00→?, 1:23:44→?)
+- A decision on **first-load weight** (~4.5 MB — the strip thumbs are full-size photos)
+- **Update the website link** on Instagram, SoundCloud, YouTube, LinkedIn
+- The **one-sheet PDF carries no website URL** — add `rafaeldeagua.com` to `tools/onesheet.py` and regenerate
+- Years active, a press line or quote; set length range (2–6 hrs is an assumption)
+- Tech rider + stage plot; Give 'Em Flowers link when released
+- His Porkbun cart has a stray **$9.99** item sitting in it
 
-- **The LIKEWTER brush logo is OUT of the nav** (Sep 22, "get rid of this"). It is a typographic wordmark now — RDA, expanding to RAFAEL DE AGUA above 1180px. This reverses his earlier "keep this static right there in its spot"; do not put the brush mark back. LIKEWTER still appears in the footer lockup and the hero meta.
-- Aesthetic direction as of Sep 22: "a little bit more modern and edgy". Done so far — type-only mark, true black nav with a neutral hairline, static grain at 3.5%. Not done, offered and unpicked: kill the marquee, bigger tighter headlines, demote gold to accent-only, full-bleed imagery.
-- Nav: Book is a filled gold button, Art Designs beside it links to **`https://www.wavsd.com`**. Never link the bare `wavsd.com` — the apex still serves his old Smart Productions build.
-- On phones the nav shows DJ Sets · Watch · Art Designs · Book. Producer is desktop-only because five items collided with the logo at 375px.
-- Producer page is a Coming soon card, his call on Sep 22. Do not restore the works/services/process page without him asking.
-- Not booked for: one struck line, "Sweet sixteens, weddings, karaoke, artist shows."
-- Hero eyebrow: "DJ / Producer". Nav: DJ Sets · Watch · Position · Live · Press Kit · Producer · Book.
-- Sound list: World Music first (Signature), no Melodic Techno.
-- Booked-for is a wrapping row, not a list. Selected rooms is a row of two over a row of three at every width.
-- Mixes: top three, "···" for more, no wording.
-- Slideshow: only white-jersey images. He removed 9296 and 9298 (the other guy in white at left).
-- Live streams row above the Lunch Time row.
-- Body text Jost 400 at 18px; secondary text in Jost, Bodoni only for hero, section titles, quote, genre list, covers.
-- Nav is a solid black banner, logo never moves.
+---
 
-## Working rules learned on this project
+## Working rules learned here
 
-- Commit before every visual change, one change per turn. "Looks off, revert" means the whole last round.
-- When he pastes an image, find the file on disk (newest in Downloads, Desktop, `Rafael DeAgua Website Images/`, `RaveEvent 2026/`). A look-alike already in the project is not it.
-- Never test YouTube playback in the pane: it plays out loud before mute lands. SoundCloud: `setVolume(0)` first. Audio elements: hook `HTMLMediaElement.prototype.play` to mute.
-- He reviews in a narrow pane (~590px). Never collapse a layout to one column at 600px.
-- YouTube "Sign in to confirm you're not a bot" inside the embed = this machine is rate-limited after yt-dlp calls, not the site.
+- **Commit before every visual change, one change per turn.** "Looks off, revert" means the whole last round.
+- **Never ride an unrequested change along with a requested one.** He rejected a whole commit because I bundled a producer-page rewrite into a player removal — then asked for that same rewrite himself days later.
+- **Expect three passes on any creative element**, each one subtracting. Build the strong version; he cuts it back.
+- **He deletes instructions and keeps information.** "Press play" → the track name. Show what a thing IS.
+- **"Make this cooler" means make the FAMILIAR control special**, not replace it with a cleverer metaphor.
+- **When he pastes an image, find the real file by perceptual hash** — average-hash the scratchpad copy against `~/Desktop` and `~/Downloads`, distance 0 is the file. Filenames and mtimes lie; a look-alike already in the project is never it.
