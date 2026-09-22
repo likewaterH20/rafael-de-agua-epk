@@ -92,6 +92,8 @@ Owed by Rafael:
 
 ## Decisions he made (do not undo)
 
+- **The LIKEWTER brush logo is OUT of the nav** (Sep 22, "get rid of this"). It is a typographic wordmark now — RDA, expanding to RAFAEL DE AGUA above 1180px. This reverses his earlier "keep this static right there in its spot"; do not put the brush mark back. LIKEWTER still appears in the footer lockup and the hero meta.
+- Aesthetic direction as of Sep 22: "a little bit more modern and edgy". Done so far — type-only mark, true black nav with a neutral hairline, static grain at 3.5%. Not done, offered and unpicked: kill the marquee, bigger tighter headlines, demote gold to accent-only, full-bleed imagery.
 - Nav: Book is a filled gold button, Art Designs beside it links to **`https://www.wavsd.com`**. Never link the bare `wavsd.com` — the apex still serves his old Smart Productions build.
 - On phones the nav shows DJ Sets · Watch · Art Designs · Book. Producer is desktop-only because five items collided with the logo at 375px.
 - Producer page is a Coming soon card, his call on Sep 22. Do not restore the works/services/process page without him asking.
