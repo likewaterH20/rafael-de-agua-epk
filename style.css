@@ -40,7 +40,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;op
 .display{font-family:var(--display);font-weight:400;line-height:.95;letter-spacing:-.01em}
 .display em{font-style:italic;font-weight:400;color:var(--gold)}
 h1,h2,h3{margin:0;font-family:var(--display);font-weight:400}
-h2{font-size:clamp(26px,3.4vw,44px);line-height:1.05;letter-spacing:-.005em}
+h2{font-size:clamp(30px,4.2vw,56px);line-height:1.02;letter-spacing:-.01em}
 .sec-head h2 em{font-style:italic;color:inherit}
 h3{font-size:clamp(24px,2.6vw,34px);line-height:1.05}
 p{margin:0 0 1em}
@@ -106,9 +106,9 @@ p{margin:0 0 1em}
 /* sections */
 .sec{padding:clamp(52px,7vw,104px) var(--gutter);position:relative}
 .sec>*+*{margin-top:var(--stack)}
-.sec-head{display:grid;grid-template-columns:76px 1fr;gap:18px;align-items:baseline}
-.sec-head .num{font-size:13px}
-@media (max-width:700px){.sec-head{grid-template-columns:1fr;gap:8px}}
+/* number stacked above the title, a hairline opening each section, aligned to the 760 column */
+.sec-head{max-width:760px;border-top:1px solid var(--line);padding-top:16px}
+.sec-head .num{display:block;font-size:12px;letter-spacing:.14em;margin-bottom:10px}
 
 /* position */
 .position{max-width:760px}
