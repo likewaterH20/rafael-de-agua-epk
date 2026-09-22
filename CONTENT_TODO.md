@@ -21,8 +21,9 @@ Every placeholder on the site has a gold dashed frame and a label. The footer bu
 
 ## Still owed
 - [ ] Six set END times for the three live streams so the chaining cuts cleanly
-- [x] Go live — https://likewaterh20.github.io/rafael-de-agua-epk/ (GitHub Pages, Sep 22 2026)
-- [ ] **Buy `rafaeldeagua.com`** — available Sep 22 2026, he registers it. Then: add `CNAME`, point Pages at it, set the 4 A records + `www` CNAME, wait for the cert, and rewrite every absolute OG/Twitter URL (they hardcode `likewaterh20.github.io` today, so the link preview breaks otherwise).
+- [x] Go live — **https://rafaeldeagua.com** (GitHub Pages + Porkbun domain, HTTPS, Sep 22 2026)
+- [ ] **Update the website link everywhere it already points somewhere else** — Instagram bio, SoundCloud profile, YouTube channel, LinkedIn, any EPK or rate card already sent out.
+- [ ] The one-sheet PDF carries no website URL at all. Now that the domain exists, add `rafaeldeagua.com` to `tools/onesheet.py` and regenerate.
 
 ## To make
 - [x] Como El Agua (Edit) preview cut 9/15 (42 s from 0:30 of `agua = la isla RMIX.wav`)

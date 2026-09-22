@@ -50,10 +50,10 @@ Quote the `source[...]` args or zsh eats the brackets. Pages 404s for about 70 s
 Verify by Content-Type, never by status alone (a 200 with the wrong type means a fallback):
 
 ```bash
-curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://likewaterh20.github.io/rafael-de-agua-epk/style.css
+curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://rafaeldeagua.com/style.css
 ```
 
-OG and Twitter tags on both pages carry **absolute** `https://likewaterh20.github.io/...` URLs and point at `assets/og-card.jpg` (1200×630, generated from `gallery-02.jpg`). If the site ever moves to a custom domain, those absolute URLs and `og:url` must ALL be updated or the link preview breaks.
+OG and Twitter tags on both pages carry **absolute** `https://rafaeldeagua.com/...` URLs and point at `assets/og-card.jpg` (1200×630, generated from `gallery-02.jpg`). If the site ever moves again, those absolute URLs and `og:url` must ALL be updated or the link preview breaks.
 
 ## How the moving parts work
 
