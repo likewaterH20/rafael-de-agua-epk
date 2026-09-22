@@ -1,7 +1,7 @@
 # Rafael De Agua EPK — Handoff
 
 Luxury DJ / Producer electronic press kit for Rafael De Agua (LIKEWTER). Static site, no build step, no framework.
-Last state: Sep 22 2026, git head `Revert "Remove the originals player"`. Not deployed yet.
+**LIVE: https://likewaterh20.github.io/rafael-de-agua-epk/** (GitHub Pages, repo `likewaterH20/rafael-de-agua-epk`, deployed Sep 22 2026 so he could send it to a CEO).
 
 ## Folder
 
@@ -34,14 +34,24 @@ copy `tools/serve.py` and `rsync` the project into the session scratchpad as `se
 
 ## Deploy
 
-GitHub Pages, same pattern as the Yum Yum pitch. The `likewaterH20` GitHub account is signed in with `gh`.
+Already done — this is how it was set up, kept for reference. GitHub Pages, same pattern as the Yum Yum pitch. The `likewaterH20` GitHub account is signed in with `gh`.
 
 ```bash
 gh repo create rafael-de-agua-epk --public --source=. --push
-gh api -X POST repos/likewaterH20/rafael-de-agua-epk/pages -f build_type=legacy -f source[branch]=main -f source[path]=/
+gh api -X POST repos/likewaterH20/rafael-de-agua-epk/pages -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/'
 ```
 
-Then verify the live URL serves `style.css` with `text/css` and the PDF with `application/pdf` (a 200 with the wrong type means a SPA fallback). A custom domain comes after.
+Quote the `source[...]` args or zsh eats the brackets. Pages 404s for about 70 seconds after you enable it, so poll until 200.
+
+**Updating it now is just `git push`** — Pages rebuilds in a minute or two.
+
+Verify by Content-Type, never by status alone (a 200 with the wrong type means a fallback):
+
+```bash
+curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://likewaterh20.github.io/rafael-de-agua-epk/style.css
+```
+
+OG and Twitter tags on both pages carry **absolute** `https://likewaterh20.github.io/...` URLs and point at `assets/og-card.jpg` (1200×630, generated from `gallery-02.jpg`). If the site ever moves to a custom domain, those absolute URLs and `og:url` must ALL be updated or the link preview breaks.
 
 ## How the moving parts work
 
