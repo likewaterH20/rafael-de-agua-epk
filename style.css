@@ -141,7 +141,13 @@ p{margin:0 0 1em}
 .mx-title{font-family:var(--body);font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mx-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);margin-top:4px}
 .mx-time{font-size:13px;letter-spacing:.12em;color:var(--paper-2);font-variant-numeric:tabular-nums;white-space:nowrap}
-.mx-seek{margin-bottom:26px;height:2px}
+/* scrub bar: 2px line, but a 32px tall hit area so a long mix is easy to skip through */
+/* border-box is global: height must be 2px of track + 30px of padding, or the content box is 0 and nothing paints */
+.mx-seek{margin-bottom:11px;height:32px;padding:15px 0;background-clip:content-box;touch-action:none;outline:none}
+.mx-seek b{top:15px;bottom:15px;transition:background .2s}
+.mx-seek:hover,.mx-seek.drag,.mx-seek:focus-visible{background-color:rgba(239,230,214,.28)}
+.mx-seek b::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--gold);transform:scale(0);transition:transform .18s}
+.mx-seek:hover b::after,.mx-seek.drag b::after,.mx-seek:focus-visible b::after{transform:scale(1)}
 .mixlist{list-style:none;margin:0;padding:0}
 .mixlist li{display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:baseline;padding:10px 0;border-top:1px solid rgba(239,230,214,.08);cursor:pointer;transition:padding-left .3s,color .3s}
 .mixlist li:last-child{border-bottom:1px solid rgba(239,230,214,.08)}

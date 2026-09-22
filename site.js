@@ -68,7 +68,7 @@
     const fold=()=>{ const rs=$$('.mx',list); rs.forEach((r,i)=>r.classList.toggle('more',i>=SHOW)); const extra=rs.length-SHOW; if(moreBtn){ moreBtn.hidden=extra<=0; const open=list.classList.contains('open'); moreBtn.textContent=open?'–':'···'; moreBtn.setAttribute('aria-label',open?'Show fewer mixes':'Show '+extra+' more mixes'); } };
     if(moreBtn) moreBtn.addEventListener('click',()=>{ list.classList.toggle('open'); fold(); });
     const big=$('.mx-big',mp), title=$('.mx-title',mp), sub=$('.mx-sub',mp), time=$('.mx-time',mp), seek=$('.mx-seek',mp), fill=$('.mx-seek b',mp);
-    let rows=$$('.mx',mp), cur=-1, playing=false, dur=0, ready=false;
+    let rows=$$('.mx',mp), cur=-1, playing=false, dur=0, ready=false, pos=0, dragging=false;
     const fmt=ms=>{ const s=Math.floor(ms/1000); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
     const fmtLen=ms=>{ const m=Math.round(ms/60000); return m>=60?`${Math.floor(m/60)} h ${String(m%60).padStart(2,'0')}`:`${m} min`; };
     const setPlaying=p=>{ playing=p; big.firstElementChild.textContent=p?'❚❚':'▶'; rows.forEach((r,i)=>r.classList.toggle('playing',p&&i===cur)); };
@@ -93,37 +93,60 @@
     w.bind(SC.Widget.Events.PAUSE,()=>setPlaying(false));
     w.bind(SC.Widget.Events.FINISH,()=>setPlaying(false));
     w.bind(SC.Widget.Events.ERROR,()=>{ mp.classList.add('unavailable'); sub.textContent='Stream unavailable right now'; });
-    w.bind(SC.Widget.Events.PLAY_PROGRESS,e=>{ fill.style.width=(e.relativePosition*100)+'%'; w.getDuration(d=>{ dur=d; if(dur) time.textContent=fmt(e.currentPosition)+' / '+fmt(dur); }); });
+    w.bind(SC.Widget.Events.PLAY_PROGRESS,e=>{ pos=e.currentPosition; if(!dragging) fill.style.width=(e.relativePosition*100)+'%'; w.getDuration(d=>{ dur=d; if(dur) time.textContent=fmt(e.currentPosition)+' / '+fmt(dur); }); });
     big.addEventListener('click',()=>{ if(!ready) return; if(cur<0){ select(0); w.skip(0); w.play(); return; } playing?w.pause():w.play(); });
-    seek.addEventListener('click',e=>{ if(!dur) return; const r=seek.getBoundingClientRect(); w.seekTo((e.clientX-r.left)/r.width*dur); });
+
+    // scrub: click, drag, or arrow keys. The mixes run 18 min to 1 h 10, so seeking has to be cheap.
+    seek.tabIndex=0; seek.setAttribute('role','slider'); seek.setAttribute('aria-label','Seek within the mix');
+    const ratioAt=x=>{ const r=seek.getBoundingClientRect(); return Math.min(1,Math.max(0,(x-r.left)/r.width)); };
+    const paint=ra=>{ fill.style.width=(ra*100)+'%'; };
+    const jump=ms=>{ if(!dur) return; pos=Math.min(dur,Math.max(0,pos+ms)); paint(pos/dur); w.seekTo(pos); };
+    seek.addEventListener('pointermove',e=>{ if(dragging) fill.style.width=(ratioAt(e.clientX)*100)+'%'; });
+    seek.addEventListener('pointerdown',e=>{ if(!dur) return; dragging=true; seek.classList.add('drag'); try{seek.setPointerCapture(e.pointerId);}catch(_){ } paint(ratioAt(e.clientX)); e.preventDefault(); });
+    const endDrag=e=>{ if(!dragging) return; dragging=false; seek.classList.remove('drag'); const ra=ratioAt(e.clientX); pos=ra*dur; paint(ra); w.seekTo(pos); };
+    seek.addEventListener('pointerup',endDrag);
+    seek.addEventListener('pointercancel',()=>{ dragging=false; seek.classList.remove('drag'); });
+    seek.addEventListener('keydown',e=>{ const k=e.key;
+      const step={ArrowRight:30000,ArrowLeft:-30000,PageUp:300000,PageDown:-300000}[k];
+      if(step!==undefined){ e.preventDefault(); jump(step); return; }
+      if(k==='Home'){ e.preventDefault(); if(dur){ pos=0; paint(0); w.seekTo(0); } } });
   } else if(mp){ mp.classList.add('unavailable'); $('.mx-sub',mp).textContent='Player script blocked. Check the connection.'; }
 
   // ---- watch: swipeable row of YouTube sets; iframe only on click ----
   // A figure with data-sets="start-end,start-end" (seconds, end optional) plays ONLY those windows, in order:
   // when a window ends it jumps to the next one, and stops after the last. That is how his parts of a longer stream play.
-  let ytPlayer=null, ytPoll=null;
-  const ytUnload=f=>{ if(ytPoll){ clearInterval(ytPoll); ytPoll=null; } if(ytPlayer&&f.querySelector('iframe')){ try{ytPlayer.destroy();}catch(_){ } ytPlayer=null; }
+  let ytPlayer=null, ytPoll=null, ytFig=null, ytWin=0;
+  const ytUnload=f=>{ if(ytPoll){ clearInterval(ytPoll); ytPoll=null; } if(ytPlayer&&f.querySelector('iframe')){ try{ytPlayer.destroy();}catch(_){ } ytPlayer=null; ytFig=null; }
     const i=f.querySelector('iframe'); if(i) i.remove(); f.classList.remove('on'); f.style.cursor=''; $$('.yt-cue',f).forEach(c=>c.classList.remove('on')); };
   const parseSets=f=>(f.dataset.sets||'').split(',').filter(Boolean).map(x=>{ const [a,b]=x.split('-'); return {start:+a, end:b?+b:null}; });
+  const paintCues=(f,i)=>$$('.yt-cue',f).forEach(c=>c.classList.toggle('on',+c.dataset.set===i));
   const ytLoad=(f,setIdx)=>{
     scPause(); if(audioRef.a&&!audioRef.a.paused) audioRef.a.pause();
     $$('.yt').forEach(o=>{ if(o!==f) ytUnload(o); }); ytUnload(f);
-    const sets=parseSets(f); const start=sets.length?sets[setIdx||0].start:(+f.dataset.start||0);
+    const sets=parseSets(f); ytWin=setIdx||0; const start=sets.length?sets[ytWin].start:(+f.dataset.start||0);
     const host=document.createElement('div'); host.className='yt-host';
     f.insertBefore(host,f.querySelector('img')); f.classList.add('on'); f.style.cursor='default';
-    $$('.yt-cue',f).forEach(c=>c.classList.toggle('on',+c.dataset.set===(setIdx||0)));
+    paintCues(f,ytWin);
     const boot=()=>{
       ytPlayer=new YT.Player(host,{videoId:f.dataset.id,playerVars:{autoplay:1,start:start,rel:0,modestbranding:1,color:'white',playsinline:1},
         host:'https://www.youtube.com',
-        events:{onReady:e=>{ e.target.playVideo(); },
+        events:{onReady:e=>{ ytFig=f; e.target.playVideo(); },
           onStateChange:e=>{
             if(!sets.length) return;
             if(e.data===YT.PlayerState.PLAYING && !ytPoll){
+              // Track the active window by index instead of re-deriving it from the clock every tick:
+              // re-deriving skipped the hand-off whenever a seek or a buffer stall stepped past the boundary.
               ytPoll=setInterval(()=>{ if(!ytPlayer||!ytPlayer.getCurrentTime) return; const t=ytPlayer.getCurrentTime();
-                const k=sets.findIndex((w,i)=>t>=w.start-1&&(w.end==null||t<w.end)); const cur=sets.findIndex(w=>t>=w.start-1&&(w.end!=null&&t>=w.end));
-                // reached the end of a window -> next window or stop
-                const done=sets.findIndex(w=>w.end!=null&&t>=w.end&&t<w.end+3);
-                if(done>-1){ const nx=sets[done+1]; if(nx){ ytPlayer.seekTo(nx.start,true); $$('.yt-cue',f).forEach(c=>c.classList.toggle('on',+c.dataset.set===done+1)); } else { ytPlayer.pauseVideo(); } }
+                const cw=sets[ytWin]; if(!cw) return;
+                // he scrubbed the YouTube bar himself: follow him to whatever window he landed in, don't yank him back
+                if(t<cw.start-4||(cw.end!=null&&t>cw.end+4)){
+                  const k=sets.findIndex(s=>t>=s.start-1&&(s.end==null||t<s.end));
+                  if(k>-1&&k!==ytWin){ ytWin=k; paintCues(f,k); }
+                  return;
+                }
+                if(cw.end!=null&&t>=cw.end){ const nx=sets[ytWin+1];
+                  if(nx){ ytWin++; ytPlayer.seekTo(nx.start,true); paintCues(f,ytWin); }
+                  else { ytPlayer.pauseVideo(); clearInterval(ytPoll); ytPoll=null; } }
               },500);
             }
           }}});
@@ -135,7 +158,11 @@
     const go=()=>{ if(!f.classList.contains('on')) ytLoad(f,0); };
     f.querySelector('img').addEventListener('click',go);
     const pb=f.querySelector('.yt-play'); if(pb) pb.addEventListener('click',go);
-    $$('.yt-cue',f).forEach(c=>c.addEventListener('click',e=>{ e.stopPropagation(); ytLoad(f,+c.dataset.set); }));
+    // Jumping between his two sets must SEEK the running player. Reloading the iframe meant a black
+    // frame, a re-buffer and sometimes a pre-roll every time he tapped the other set.
+    $$('.yt-cue',f).forEach(c=>c.addEventListener('click',e=>{ e.stopPropagation(); const i=+c.dataset.set;
+      if(ytFig===f&&ytPlayer&&ytPlayer.seekTo){ const s=parseSets(f)[i]; if(s){ ytWin=i; ytPlayer.seekTo(s.start,true); ytPlayer.playVideo(); paintCues(f,i); return; } }
+      ytLoad(f,i); }));
   });
   // photo slideshow: same carousel mechanics + dots + gentle autoplay (pauses on any interaction)
   $$('.slideshow').forEach(blk=>{
