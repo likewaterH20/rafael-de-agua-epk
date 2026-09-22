@@ -63,7 +63,9 @@ OG and Twitter tags on both pages carry **absolute** `https://rafaeldeagua.com/.
 
 **Watch.** Two swipe rows, one carousel each (`.watch-block`): Sounds Sessions live streams first (002, 001, 004), then It's Almost Lunch Time (Ep. 01, 02). YouTube iframes are created only on click. Each live stream figure has `data-sets="start-end,start-end"` in seconds; the YouTube IFrame API polls every 500 ms and jumps from one window to the next, then pauses and clears the poll. The poll advances an **explicit window index** (`ytWin`), not a clock lookup, and re-syncs if the viewer drags YouTube's own bar out of the window. A cue chip on the already-loaded figure **seeks in place** — never rebuild the iframe, that was the "super buggy" jump. **End times are missing** (`1080-,4290-` etc.), so a set plays on into the next DJ. Fill them when he sends the six timestamps; nothing else fixes it.
 
-Test this with a stubbed `window.YT`, never a real embed — it sounds on his speakers before any mute lands.
+**No YouTube chrome, on purpose.** `controls:0` + `disablekb` + `fs:0` + `iv_load_policy:3` on `youtube-nocookie.com`, a transparent `.yt-shield` over the iframe swallowing pointer events (its click is play/pause), and the poster `<img>` promoted to an overlay that only lifts while `.playing`. The poster is what hides YouTube's title card at startup and the "More videos" end screen on pause — don't go back to `display:none` on it. Side effect: no scrubbing inside a clip, the Set chips are the only way to move.
+
+Test this with a stubbed `window.YT`, never a real embed — it sounds on his speakers before any mute lands. To eyeball the frame, inject a throwaway iframe with the same params **plus `&mute=1` in the URL**, screenshot, remove.
 
 🚨 `ytUnload` must only tear down `ytPoll` / `ytPlayer` when `ytFig === f`. It used to clear the interval unconditionally, so unloading any off-screen carousel slide silently stopped the set-to-set hand-off of the video that was playing.
 
