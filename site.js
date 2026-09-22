@@ -59,7 +59,7 @@
     const w=SC.Widget($('.sc-hidden',mp));
     const list=$('.mixlist',mp), N=+list.dataset.count||5, SHOW=+list.dataset.show||N;
     const moreBtn=$('.mx-more',mp);
-    const fold=()=>{ const rs=$$('.mx',list); rs.forEach((r,i)=>r.classList.toggle('more',i>=SHOW)); const extra=rs.length-SHOW; if(moreBtn){ moreBtn.hidden=extra<=0; moreBtn.textContent=list.classList.contains('open')?'Fewer mixes':(extra===1?'1 more mix':extra+' more mixes'); } };
+    const fold=()=>{ const rs=$$('.mx',list); rs.forEach((r,i)=>r.classList.toggle('more',i>=SHOW)); const extra=rs.length-SHOW; if(moreBtn){ moreBtn.hidden=extra<=0; const open=list.classList.contains('open'); moreBtn.textContent=open?'–':'···'; moreBtn.setAttribute('aria-label',open?'Show fewer mixes':'Show '+extra+' more mixes'); } };
     if(moreBtn) moreBtn.addEventListener('click',()=>{ list.classList.toggle('open'); fold(); });
     const big=$('.mx-big',mp), title=$('.mx-title',mp), sub=$('.mx-sub',mp), time=$('.mx-time',mp), seek=$('.mx-seek',mp), fill=$('.mx-seek b',mp);
     let rows=$$('.mx',mp), cur=-1, playing=false, dur=0, ready=false;
