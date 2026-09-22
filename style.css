@@ -38,7 +38,6 @@ h1,h2,h3{margin:0;font-family:var(--display);font-weight:400}
 h2{font-size:clamp(40px,6.5vw,96px);line-height:.95;letter-spacing:-.01em}
 h3{font-size:clamp(24px,2.6vw,34px);line-height:1.05}
 p{margin:0 0 1em}
-.lede{font-size:clamp(19px,1.6vw,23px);line-height:1.5;max-width:56ch;color:var(--paper)}
 .muted{color:var(--paper-2)}
 .rule{height:1px;background:var(--line)}
 .num{font-family:var(--display);font-style:italic;color:var(--gold);font-size:14px;letter-spacing:.05em}
@@ -90,7 +89,6 @@ p{margin:0 0 1em}
 
 /* position */
 .position{display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,56px)}
-.position .lede{max-width:64ch}
 .yesno{display:grid;grid-template-columns:1fr;gap:28px;border-top:1px solid var(--line);padding-top:28px}
 .yesno h4{margin:0 0 16px;font-size:12px;letter-spacing:.26em;text-transform:uppercase;font-weight:400}
 .yesno .yes h4{color:var(--gold)}
