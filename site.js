@@ -140,7 +140,9 @@
     let rows=$$('.mx',mp), cur=-1, playing=false, dur=0, ready=false, pos=0, dragging=false;
     const fmt=ms=>{ const s=Math.floor(ms/1000); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
     const fmtLen=ms=>{ const m=Math.round(ms/60000); return m>=60?`${Math.floor(m/60)} h ${String(m%60).padStart(2,'0')}`:`${m} min`; };
-    const setPlaying=p=>{ playing=p; big.firstElementChild.textContent=p?'❚❚':'▶'; rows.forEach((r,i)=>r.classList.toggle('playing',p&&i===cur)); };
+    // the deck IS the state: record spins and the tonearm drops when it plays
+    const setPlaying=p=>{ playing=p; mp.classList.toggle('playing',p); big.setAttribute('aria-label',p?'Pause':'Play');
+      rows.forEach((r,i)=>r.classList.toggle('playing',p&&i===cur)); };
     const select=i=>{ cur=i; rows.forEach(r=>r.classList.remove('loading')); if(!rows[i]) return; rows[i].classList.add('loading'); title.textContent=rows[i].querySelector('.mx-t').textContent; sub.textContent='Set '+String(i+1).padStart(2,'0')+' · '+rows[i].querySelector('.mx-d').textContent; };
     const onRow=(r,i)=>r.addEventListener('click',()=>{ if(!ready) return; if(i===cur){ playing?w.pause():w.play(); return; } select(i); w.skip(i); w.play(); });
     const build=sounds=>{
