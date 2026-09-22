@@ -28,6 +28,69 @@
   addEventListener('scroll',reveal,{passive:true}); addEventListener('resize',reveal); addEventListener('load',reveal); reveal();
   setTimeout(reveal,300);
 
+  // ---- the name behaves like water ----
+  // De Agua. Letters lift and ripple away from the pointer or finger, then settle.
+  // Split in JS (never innerHTML) so the markup and the reveal animation stay untouched.
+  const splitChars=el=>{
+    [...el.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        [...n.textContent].forEach(c=>{
+          const s=document.createElement('span'); s.className='ch';
+          s.textContent=(c===' ')?' ':c;
+          frag.appendChild(s);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1 && !n.classList.contains('ch')) splitChars(n);
+    });
+  };
+
+  const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const name=$('.hero-title');
+  if(name && !calm){
+    splitChars(name);
+    const chars=$$('.ch',name);
+    const st=chars.map(()=>({y:0,k:0}));
+    let px=-9999, py=-9999, hot=0, raf=null, pts=[];
+    const R=180;                                   // how far the disturbance carries
+    const measure=()=>{ pts=chars.map(c=>{ const r=c.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; }); };
+    const loop=()=>{
+      const t=performance.now()/1000; let alive=false;
+      for(let i=0;i<chars.length;i++){
+        const p=pts[i]||{x:0,y:0};
+        const d=Math.hypot(p.x-px,p.y-py);
+        const f=hot*Math.max(0,1-d/R);
+        const ty=(-20*f)+Math.sin(t*5-d*0.025)*8*f;   // lift, plus a wave travelling outward
+        const tk=-7*f;
+        const s=st[i];
+        s.y+=(ty-s.y)*0.16; s.k+=(tk-s.k)*0.16;
+        if(Math.abs(s.y)>0.06||Math.abs(s.k)>0.06) alive=true;
+        chars[i].style.transform='translate3d(0,'+s.y.toFixed(2)+'px,0) skewX('+s.k.toFixed(2)+'deg)';
+      }
+      if(alive||hot>0){ raf=requestAnimationFrame(loop); }
+      else { raf=null; chars.forEach(c=>{ c.style.transform=''; }); }
+    };
+    const kick=()=>{ if(!raf) raf=requestAnimationFrame(loop); };
+    const touch=e=>{ px=e.clientX; py=e.clientY; hot=1; kick(); };
+    name.addEventListener('pointerenter',e=>{ measure(); touch(e); });
+    name.addEventListener('pointermove',touch);
+    name.addEventListener('pointerdown',e=>{ measure(); touch(e); });
+    name.addEventListener('pointerleave',()=>{ hot=0; kick(); });
+    addEventListener('scroll',()=>{ if(raf) measure(); },{passive:true});
+    addEventListener('resize',()=>{ measure(); },{passive:true});
+  }
+
+  // Book button leans toward the cursor a little
+  const magnet=$('.nav .book');
+  if(magnet && !calm && matchMedia('(hover:hover)').matches){
+    magnet.addEventListener('pointermove',e=>{
+      const r=magnet.getBoundingClientRect();
+      const dx=(e.clientX-(r.left+r.width/2))/r.width, dy=(e.clientY-(r.top+r.height/2))/r.height;
+      magnet.style.transform='translate('+(dx*7).toFixed(1)+'px,'+(dy*5).toFixed(1)+'px)';
+    });
+    magnet.addEventListener('pointerleave',()=>{ magnet.style.transform=''; });
+  }
+
   // room loop: browsers pause muted autoplay when the tab is hidden or the video is off-screen; nudge it back
   // Same rect-on-scroll check the reveal uses. IntersectionObserver missed the re-start here —
   // the browser pauses the muted loop while it is off-screen and it stayed on the poster frame.

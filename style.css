@@ -69,7 +69,12 @@ p{margin:0 0 1em}
 /* hero */
 .hero{position:relative;min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;align-items:end;padding:0 0 var(--gutter);overflow:clip}
 .hero-copy{padding:140px var(--gutter) 96px;position:relative;z-index:2}
-.hero-title{font-size:clamp(64px,11vw,190px);line-height:.86;margin:14px 0 26px}
+.hero-title{font-size:clamp(64px,11vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
+/* each letter moves on its own — the name is water */
+.hero-title .ch{display:inline-block;will-change:transform;transition:color .5s}
+.hero-title:hover .ch{color:#fff}
+.hero-title .l2:hover .ch,.hero-title .l2 .ch{color:inherit}
+.nav .book{transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
 .hero-title .l2{display:block;padding-left:.9em}
 .hero-sub{max-width:44ch;font-size:clamp(17px,1.4vw,21px);color:var(--paper)}
 .hero-photo{position:relative;height:100svh;min-height:640px}
