@@ -121,7 +121,7 @@
   if(lb){
     const im=$('img',lb);
     let dragged=false; addEventListener('mousedown',()=>{dragged=false}); addEventListener('mousemove',e=>{ if(e.buttons) dragged=true; });
-    $$('.gallery figure img').forEach(i=>i.parentElement.addEventListener('click',()=>{ if(dragged) return; im.src=i.src; lb.classList.add('open'); }));
+    $$('.gallery figure img, .artist-grid figure img').forEach(i=>i.parentElement.addEventListener('click',()=>{ if(dragged) return; im.src=i.src; lb.classList.add('open'); }));
     lb.addEventListener('click',()=>lb.classList.remove('open'));
     addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
   }

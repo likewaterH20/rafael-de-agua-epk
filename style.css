@@ -265,6 +265,13 @@ p{margin:0 0 1em}
 @media (max-width:600px){.venue .n{font-size:17px}.venue .m{font-size:11px;letter-spacing:.1em}}
 @media (max-width:420px){.venue-row{grid-template-columns:1fr}.venue{grid-column:span 1!important}}
 
+/* artist image — two frames, matched crop so the pair reads as a set */
+.artist-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);max-width:760px}
+.artist-grid figure{margin:0}
+.artist-grid img{width:100%;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--line);cursor:zoom-in;filter:saturate(.95);transition:opacity .25s}
+.artist-grid figure:hover img{opacity:.85}
+@media (max-width:560px){.artist-grid{grid-template-columns:1fr}}
+
 /* press kit */
 .press{max-width:760px}
 .bio p{color:var(--paper-2)}
