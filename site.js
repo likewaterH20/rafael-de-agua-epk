@@ -28,6 +28,12 @@
   addEventListener('scroll',reveal,{passive:true}); addEventListener('resize',reveal); addEventListener('load',reveal); reveal();
   setTimeout(reveal,300);
 
+  // room loop: browsers pause muted autoplay when the tab is hidden or the video is off-screen; nudge it back
+  const loop=$('.live-video video');
+  if(loop){ const kick=()=>{ if(!document.hidden) loop.play().catch(()=>{}); };
+    document.addEventListener('visibilitychange',kick); addEventListener('load',kick);
+    new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) kick(); }),{threshold:.1}).observe(loop); }
+
   // placeholder toggle
   const phBtn=$('#ph-toggle');
   if(phBtn){
