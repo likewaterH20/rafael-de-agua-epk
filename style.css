@@ -44,7 +44,7 @@ p{margin:0 0 1em}
 .num{font-family:var(--display);font-style:italic;color:var(--gold);font-size:14px;letter-spacing:.05em}
 
 /* nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:18px var(--gutter);mix-blend-mode:difference}
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:18px var(--gutter);background:rgba(11,8,9,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(230,178,77,.14)}
 .nav .mark img{height:22px;width:auto}
 .nav ul{list-style:none;margin:0;padding:0;display:flex;gap:clamp(14px,2.4vw,34px)}
 .nav li a{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#fff;position:relative;padding:6px 0}
@@ -52,7 +52,7 @@ p{margin:0 0 1em}
 .nav li a:hover::after,.nav li a.active::after{right:0}
 .nav .book{border:1px solid #fff;padding:8px 16px}
 @media (max-width:760px){.nav ul li:not(.keep){display:none}.nav ul{gap:12px}.nav li a{letter-spacing:.12em;font-size:11px;white-space:nowrap}.nav .book{border:0;padding:6px 0;border-bottom:1px solid #fff}.nav .mark img{height:16px}.nav{padding:14px 18px}}
-#mixes,#watch,.sec{scroll-margin-top:70px}
+#mixes,#watch,.sec,.contact{scroll-margin-top:64px}
 
 /* hero */
 .hero{position:relative;min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;align-items:end;padding:0 0 var(--gutter);overflow:clip}
