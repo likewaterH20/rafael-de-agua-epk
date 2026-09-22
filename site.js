@@ -29,10 +29,16 @@
   setTimeout(reveal,300);
 
   // room loop: browsers pause muted autoplay when the tab is hidden or the video is off-screen; nudge it back
+  // Same rect-on-scroll check the reveal uses. IntersectionObserver missed the re-start here —
+  // the browser pauses the muted loop while it is off-screen and it stayed on the poster frame.
   const loop=$('.live-video video');
-  if(loop){ const kick=()=>{ if(!document.hidden) loop.play().catch(()=>{}); };
-    document.addEventListener('visibilitychange',kick); addEventListener('load',kick);
-    new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) kick(); }),{threshold:.1}).observe(loop); }
+  if(loop){
+    const seen=()=>{ const r=loop.getBoundingClientRect(); return r.top<innerHeight&&r.bottom>0; };
+    const kick=()=>{ if(!document.hidden&&loop.paused&&seen()) loop.play().catch(()=>{}); };
+    document.addEventListener('visibilitychange',kick);
+    addEventListener('load',kick); addEventListener('scroll',kick,{passive:true}); addEventListener('resize',kick);
+    kick(); setTimeout(kick,400);
+  }
 
   // placeholder toggle
   const phBtn=$('#ph-toggle');
