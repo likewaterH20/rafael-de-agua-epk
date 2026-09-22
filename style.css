@@ -5,13 +5,14 @@
   --ink:#170e10;
   --ink-2:#1f1517;
   --grey:#464041;
-  --accent:#00a8a2;        /* the lockup teal, lifted so it reads on black */
-  --accent-deep:#008480;   /* exact colour sampled from the LIKEWTER rule */
-  --line:rgba(0,168,162,.26);
-  --gold-og:#e6b24d;       /* the original gold — kept for the hero eyebrow + "De Agua" only */
-  --gold:var(--accent);    /* alias: every existing var(--gold) now resolves to the accent */
-  --gold-2:#7fb9b5;
-  --teal:#9ac0c4;
+  /* gold is the accent. The LIKEWTER rule teal is used sparingly — hairlines and active states only. */
+  --accent:#e6b24d;
+  --gold:var(--accent);
+  --gold-og:var(--accent);
+  --gold-2:#c9a780;
+  --teal:#00a8a2;          /* lockup teal, lifted so it reads on black (#008480 exact) */
+  --teal-deep:#008480;
+  --line:rgba(0,168,162,.2);
   --magenta:#8c5b97;
   --paper:#efe6d6;
   --paper-2:#cfc4b2;
@@ -54,7 +55,7 @@ p{margin:0 0 1em}
 @media (min-width:1180px){.mk-full{display:inline}.mk-short{display:none}}
 .nav ul{list-style:none;margin:0;padding:0;display:flex;gap:clamp(14px,2.4vw,34px)}
 .nav li a{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#fff;position:relative;padding:6px 0}
-.nav li a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:#fff;transition:right .35s cubic-bezier(.7,0,.2,1)}
+.nav li a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--teal);transition:right .35s cubic-bezier(.7,0,.2,1)}
 .nav li a:hover::after,.nav li a.active::after{right:0}
 /* Book is the primary action: filled gold. Art Designs sits beside it as the outlined sibling. */
 .nav .book{background:var(--gold);border:1px solid var(--gold);color:var(--ink);padding:9px 20px;font-weight:500;transition:background .25s,color .25s,box-shadow .25s}
@@ -75,9 +76,6 @@ p{margin:0 0 1em}
 .hero-title{font-size:clamp(64px,11vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
 /* each letter moves on its own — the name is water */
 .hero-title .ch{display:inline-block;will-change:transform}
-/* the hero keeps the original gold; teal is the accent everywhere else on the page */
-.hero .eyebrow{color:var(--gold-og)}
-.hero-title em,.hero-title .l2 .ch{color:var(--gold-og)}
 .nav .book{transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
 .hero-title .l2{display:block;padding-left:.9em}
 .hero-sub{max-width:44ch;font-size:clamp(17px,1.4vw,21px);color:var(--paper)}
