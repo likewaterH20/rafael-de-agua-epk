@@ -20,7 +20,7 @@ ROOMS=[("Taverna Veranda","Resident · 4 years running · sister lounge to Pergo
 SOUND="World music · Afro house · tech house · Latin & flamenco edits · disco & soul · original productions and unreleased edits in every set."
 LINKS=["WATER DJ SETS, 13 mixes  ·  soundcloud.com/likewter/sets/water-dj-sets","It's Almost Lunch Time, video series  ·  youtube.com/channel/UCgqDcAzOLqB_O-vrDbRiSwQ","Live streams  ·  Sounds Sessions 001 / 002 / 004, North Bridge Studios"]
 EMAIL="supergoodwav@gmail.com"
-FOOT="IG @LIKEWTER  ·  SOUNDCLOUD.COM/LIKEWTER  ·  CDJ / VINYL / HYBRID  ·  SETS 2–6 HRS"
+FOOT="IG @LIKEWTER  ·  SOUNDCLOUD.COM/LIKEWTER  ·  CDJ / LAPTOP / VINYL  ·  SETS 2–6 HRS"
 COPY="© 2026 RAFAEL DE AGUA · LIKEWTER"
 
 pdfmetrics.registerFont(TTFont("Bod",F+"Bodoni_Moda_ital_opsz_wght_0_6__96_400.ttf")); pdfmetrics.registerFont(TTFont("BodI",F+"Bodoni_Moda_ital_opsz_wght_1_6__96_400.ttf")); pdfmetrics.registerFont(TTFont("Jost",F+"Jost_wght_400.ttf"))

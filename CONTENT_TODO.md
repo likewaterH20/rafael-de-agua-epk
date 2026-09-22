@@ -17,7 +17,7 @@ Every placeholder on the site has a gold dashed frame and a label. The footer bu
 - [x] Notable rooms (9/14): Taverna Veranda resident 4 yrs (sister lounge to Pergola NYC), Jersey City Fourth of July Festival 2 yrs, Jersey City Public Library events 2 yrs, NJ festival stages
 - [ ] Bio facts still open: years active, releases, press
 - [ ] Management / agent line (row removed until there is one; YouTube row added instead)
-- [ ] Set lengths + formats in the facts row (2–6 hrs, CDJ / vinyl / hybrid)
+- [x] Formats confirmed 9/22: CDJ · Laptop · Vinyl. Set lengths still my assumption (2–6 hrs)
 
 ## Still owed
 - [ ] Six set END times for the three live streams so the chaining cuts cleanly
