@@ -253,6 +253,9 @@ p{margin:0 0 1em}
 /* footer */
 footer{padding:36px var(--gutter);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--paper-2)}
 footer img{height:16px;opacity:.7}
+.f-social{display:flex;gap:clamp(16px,2.5vw,26px);flex-wrap:wrap}
+.f-social a{color:var(--paper-2);transition:color .2s}
+.f-social a:hover{color:var(--gold)}
 footer img.lockup{height:64px;opacity:1}
 footer button{background:none;border:1px solid var(--line);color:var(--gold);font:inherit;letter-spacing:.26em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
 
