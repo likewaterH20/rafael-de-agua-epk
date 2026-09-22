@@ -153,17 +153,18 @@ p{margin:0 0 1em}
 .mixplayer{position:relative}
 .mx-now{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:18px;align-items:center;margin-bottom:14px}
 .mx-info{min-width:0}
-/* De Agua: the play button drops into water. Rings radiate out while it plays, once on hover. */
-.mx-big{width:56px;height:56px;border-radius:50%;border:1px solid var(--gold);background:var(--gold);color:var(--ink);font-size:16px;cursor:pointer;display:grid;place-items:center;position:relative;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
-.mx-big:hover{transform:scale(1.06)}
-.mx-big:active{transform:scale(.94)}
-.mx-big i{font-style:normal;position:relative;z-index:2;transition:letter-spacing .25s}
-.mixplayer.playing .mx-big i{letter-spacing:.14em}
-.mx-big::before,.mx-big::after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--gold);opacity:0;pointer-events:none;z-index:1}
-@keyframes wring{0%{transform:scale(1);opacity:.55}60%{opacity:.16}100%{transform:scale(2.5);opacity:0}}
-.mixplayer.playing .mx-big::before{animation:wring 3s cubic-bezier(.2,.65,.3,1) infinite}
-.mixplayer.playing .mx-big::after{animation:wring 3s cubic-bezier(.2,.65,.3,1) 1.5s infinite}
-.mx-big:hover::before{animation:wring 1.1s ease-out}
+/* No disc, no fill: a hairline ring that quietly becomes the progress indicator while it plays. */
+.mx-big{--p:0;width:52px;height:52px;border-radius:50%;border:0;background:none;color:var(--gold);font-size:13px;
+  cursor:pointer;display:grid;place-items:center;position:relative;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.mx-big::before{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:conic-gradient(var(--gold) calc(var(--p) * 360deg),rgba(230,178,77,.22) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 calc(100% - 1px));
+          mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 calc(100% - 1px));
+  transition:opacity .3s}
+.mx-big:hover{transform:scale(1.05)}
+.mx-big:active{transform:scale(.95)}
+.mx-big i{font-style:normal;position:relative;z-index:2;line-height:1;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.mx-big:hover i{transform:scale(1.15)}
 .mx-title{font-family:var(--body);font-weight:500;font-size:clamp(18px,1.5vw,22px);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mx-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);margin-top:4px}
 .mx-time{font-size:13px;letter-spacing:.12em;color:var(--paper-2);font-variant-numeric:tabular-nums;white-space:nowrap}

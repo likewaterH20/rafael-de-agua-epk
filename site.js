@@ -142,7 +142,7 @@
     const fmtLen=ms=>{ const m=Math.round(ms/60000); return m>=60?`${Math.floor(m/60)} h ${String(m%60).padStart(2,'0')}`:`${m} min`; };
     const setPlaying=p=>{ playing=p; big.firstElementChild.textContent=p?'❚❚':'▶'; mp.classList.toggle('playing',p);
       rows.forEach((r,i)=>r.classList.toggle('playing',p&&i===cur)); };
-    const select=i=>{ cur=i; rows.forEach(r=>r.classList.remove('loading')); if(!rows[i]) return; rows[i].classList.add('loading'); title.textContent=rows[i].querySelector('.mx-t').textContent; sub.textContent='Set '+String(i+1).padStart(2,'0')+' · '+rows[i].querySelector('.mx-d').textContent; };
+    const select=i=>{ cur=i; big.style.setProperty('--p','0'); rows.forEach(r=>r.classList.remove('loading')); if(!rows[i]) return; rows[i].classList.add('loading'); title.textContent=rows[i].querySelector('.mx-t').textContent; sub.textContent='Set '+String(i+1).padStart(2,'0')+' · '+rows[i].querySelector('.mx-d').textContent; };
     const onRow=(r,i)=>r.addEventListener('click',()=>{ if(!ready) return; if(i===cur){ playing?w.pause():w.play(); return; } select(i); w.skip(i); w.play(); });
     const build=sounds=>{
       const top=sounds.slice(0,N); if(!top.length) return;
@@ -163,7 +163,10 @@
     w.bind(SC.Widget.Events.PAUSE,()=>setPlaying(false));
     w.bind(SC.Widget.Events.FINISH,()=>setPlaying(false));
     w.bind(SC.Widget.Events.ERROR,()=>{ mp.classList.add('unavailable'); sub.textContent='Stream unavailable right now'; });
-    w.bind(SC.Widget.Events.PLAY_PROGRESS,e=>{ pos=e.currentPosition; if(!dragging) fill.style.width=(e.relativePosition*100)+'%'; w.getDuration(d=>{ dur=d; if(dur) time.textContent=fmt(e.currentPosition)+' / '+fmt(dur); }); });
+    w.bind(SC.Widget.Events.PLAY_PROGRESS,e=>{ pos=e.currentPosition;
+      big.style.setProperty('--p',e.relativePosition.toFixed(4));   // the ring IS the progress
+      if(!dragging) fill.style.width=(e.relativePosition*100)+'%';
+      w.getDuration(d=>{ dur=d; if(dur) time.textContent=fmt(e.currentPosition)+' / '+fmt(dur); }); });
     big.addEventListener('click',()=>{ if(!ready) return; if(cur<0){ select(0); w.skip(0); w.play(); return; } playing?w.pause():w.play(); });
 
     // scrub: click, drag, or arrow keys. The mixes run 18 min to 1 h 10, so seeking has to be cheap.
