@@ -49,8 +49,17 @@ p{margin:0 0 1em}
 .nav li a{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#fff;position:relative;padding:6px 0}
 .nav li a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:#fff;transition:right .35s cubic-bezier(.7,0,.2,1)}
 .nav li a:hover::after,.nav li a.active::after{right:0}
-.nav .book{border:1px solid #fff;padding:8px 16px}
-@media (max-width:760px){.nav ul li:not(.keep){display:none}.nav ul{gap:12px}.nav li a{letter-spacing:.12em;font-size:11px;white-space:nowrap}.nav .book{border:0;padding:6px 0;border-bottom:1px solid #fff}.nav .mark img{height:16px}.nav{padding:14px 18px}}
+/* Book is the primary action: filled gold. Art Designs sits beside it as the outlined sibling. */
+.nav .book{background:var(--gold);border:1px solid var(--gold);color:var(--ink);padding:9px 20px;font-weight:500;transition:background .25s,color .25s,box-shadow .25s}
+.nav .book:hover{background:transparent;color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.nav .book::after{display:none}
+.nav .art{border:1px solid rgba(255,255,255,.5);padding:9px 16px;transition:border-color .25s,color .25s}
+.nav .art:hover{border-color:var(--gold);color:var(--gold)}
+.nav .art::after{display:none}
+@media (max-width:760px){.nav ul li:not(.keep){display:none}.nav ul{gap:clamp(7px,2vw,12px)}.nav li a{letter-spacing:clamp(.04em,.5vw,.12em);font-size:clamp(9px,2.5vw,11px);white-space:nowrap}
+  .nav .book{padding:6px 10px}.nav .art{padding:6px 8px;border-color:rgba(255,255,255,.4)}
+  .nav .mark img{height:16px}.nav{padding:14px 14px}}
+@media (max-width:380px){.nav ul{gap:6px}.nav li a{font-size:9px;letter-spacing:.03em}.nav .art{padding:6px 7px}.nav .book{padding:6px 9px}}
 #mixes,#watch,.sec,.contact{scroll-margin-top:64px}
 
 /* hero */
