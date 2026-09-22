@@ -116,13 +116,24 @@
   // A figure with data-sets="start-end,start-end" (seconds, end optional) plays ONLY those windows, in order:
   // when a window ends it jumps to the next one, and stops after the last. That is how his parts of a longer stream play.
   let ytPlayer=null, ytPoll=null, ytFig=null, ytWin=0;
-  const ytUnload=f=>{ if(ytPoll){ clearInterval(ytPoll); ytPoll=null; } if(ytPlayer&&f.querySelector('iframe')){ try{ytPlayer.destroy();}catch(_){ } ytPlayer=null; ytFig=null; }
-    const i=f.querySelector('iframe'); if(i) i.remove(); f.classList.remove('on'); f.style.cursor=''; $$('.yt-cue',f).forEach(c=>c.classList.remove('on')); };
+  // Only tear down the timer and the player when THIS figure is the one that owns them.
+  // It used to clear ytPoll unconditionally, so unloading any off-screen slide killed the
+  // set-to-set hand-off of the video that was actually playing.
+  const ytUnload=f=>{
+    if(ytFig===f){
+      if(ytPoll){ clearInterval(ytPoll); ytPoll=null; }
+      if(ytPlayer){ try{ytPlayer.destroy();}catch(_){ } }
+      ytPlayer=null; ytFig=null;
+    }
+    const i=f.querySelector('iframe'); if(i) i.remove();
+    const h=f.querySelector('.yt-host'); if(h) h.remove();
+    f.classList.remove('on'); f.style.cursor=''; $$('.yt-cue',f).forEach(c=>c.classList.remove('on')); };
   const parseSets=f=>(f.dataset.sets||'').split(',').filter(Boolean).map(x=>{ const [a,b]=x.split('-'); return {start:+a, end:b?+b:null}; });
   const paintCues=(f,i)=>$$('.yt-cue',f).forEach(c=>c.classList.toggle('on',+c.dataset.set===i));
   const ytLoad=(f,setIdx)=>{
     scPause(); if(audioRef.a&&!audioRef.a.paused) audioRef.a.pause();
     $$('.yt').forEach(o=>{ if(o!==f) ytUnload(o); }); ytUnload(f);
+    ytFig=f;   // claim it now, not in onReady, so a fast second click can't orphan a player
     const sets=parseSets(f); ytWin=setIdx||0; const start=sets.length?sets[ytWin].start:(+f.dataset.start||0);
     const host=document.createElement('div'); host.className='yt-host';
     f.insertBefore(host,f.querySelector('img')); f.classList.add('on'); f.style.cursor='default';
