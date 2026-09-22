@@ -127,26 +127,9 @@
   }
 
 
-  // ---- artist image: cinema frame ----
-  // one shot at a time, slow drift, auto crossfade. Greyscale until he clicks the stage.
-  const stage=$('#cine-stage');
-  if(stage){
-    const shots=$$('img',stage), rail=$('#cine-rail');
-    let i=0, timer=null;
-    const go=k=>{ i=(k+shots.length)%shots.length;
-      shots.forEach((s,x)=>s.classList.toggle('on',x===i));
-      $$('button',rail).forEach((b,x)=>b.classList.toggle('on',x===i)); };
-    const restart=()=>{ clearInterval(timer);
-      if(!calm) timer=setInterval(()=>{ if(!document.hidden) go(i+1); },5600); };
-    shots.forEach((s,k)=>{
-      const b=document.createElement('button'); b.type='button'; b.setAttribute('aria-label','Frame '+(k+1));
-      const im=document.createElement('img'); im.src=s.src; im.alt=''; b.appendChild(im);
-      b.addEventListener('click',e=>{ e.stopPropagation(); go(k); restart(); });
-      rail.appendChild(b);
-    });
-    go(0); restart();
-    document.addEventListener('visibilitychange',()=>{ if(document.hidden) clearInterval(timer); else restart(); });
-  }
+  // ---- artist image ----
+  // Two frames on screen, slide for the rest. Handled by the .slideshow strip code
+  // below — no stage, no crossfade timer, no thumbnail rail.
 
   // ---- mixes: hidden SoundCloud widget driven by our own list ----
   // Rows are rebuilt from the LIVE playlist on ready (top N), so renames/reorders on SoundCloud flow through.
