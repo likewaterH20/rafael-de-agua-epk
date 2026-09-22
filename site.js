@@ -57,7 +57,10 @@
   let scPause=()=>{};
   if(mp && window.SC && SC.Widget){
     const w=SC.Widget($('.sc-hidden',mp));
-    const list=$('.mixlist',mp), N=+list.dataset.count||5;
+    const list=$('.mixlist',mp), N=+list.dataset.count||5, SHOW=+list.dataset.show||N;
+    const moreBtn=$('.mx-more',mp);
+    const fold=()=>{ const rs=$$('.mx',list); rs.forEach((r,i)=>r.classList.toggle('more',i>=SHOW)); const extra=rs.length-SHOW; if(moreBtn){ moreBtn.hidden=extra<=0; moreBtn.textContent=list.classList.contains('open')?'Fewer mixes':(extra===1?'1 more mix':extra+' more mixes'); } };
+    if(moreBtn) moreBtn.addEventListener('click',()=>{ list.classList.toggle('open'); fold(); });
     const big=$('.mx-big',mp), title=$('.mx-title',mp), sub=$('.mx-sub',mp), time=$('.mx-time',mp), seek=$('.mx-seek',mp), fill=$('.mx-seek b',mp);
     let rows=$$('.mx',mp), cur=-1, playing=false, dur=0, ready=false;
     const fmt=ms=>{ const s=Math.floor(ms/1000); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
@@ -73,13 +76,14 @@
         const tt=document.createElement('span'); tt.className='mx-t'; tt.textContent=t.title;
         const d=document.createElement('span'); d.className='mx-d'; d.textContent=fmtLen(t.duration);
         li.append(n,tt,d); list.appendChild(li); onRow(li,i); return li; });
+      fold();
     };
-    rows.forEach(onRow);
+    rows.forEach(onRow); fold();
     scPause=()=>{ if(playing) w.pause(); };
     // the widget fills sound metadata lazily; wait until the top N all have titles (else keep the static rows)
     const tryBuild=n=>w.getSounds(s=>{ const top=(s||[]).slice(0,N); if(top.length===N&&top.every(t=>t&&t.title&&t.duration)) build(top); else if(n<8) setTimeout(()=>tryBuild(n+1),700); });
     w.bind(SC.Widget.Events.READY,()=>{ ready=true; tryBuild(0); });
-    w.bind(SC.Widget.Events.PLAY,()=>{ if(audioRef.a&&!audioRef.a.paused) audioRef.a.pause(); w.getCurrentSoundIndex(i=>{ if(i>=rows.length){ w.pause(); return; } if(i!==cur) select(i); rows[cur].classList.remove('loading'); setPlaying(true); }); });
+    w.bind(SC.Widget.Events.PLAY,()=>{ if(audioRef.a&&!audioRef.a.paused) audioRef.a.pause(); w.getCurrentSoundIndex(i=>{ if(i>=rows.length){ w.pause(); return; } if(i!==cur) select(i); rows[cur].classList.remove('loading'); if(rows[cur].classList.contains('more')&&!list.classList.contains('open')){ list.classList.add('open'); fold(); } setPlaying(true); }); });
     w.bind(SC.Widget.Events.PAUSE,()=>setPlaying(false));
     w.bind(SC.Widget.Events.FINISH,()=>setPlaying(false));
     w.bind(SC.Widget.Events.ERROR,()=>{ mp.classList.add('unavailable'); sub.textContent='Stream unavailable right now'; });
