@@ -188,6 +188,14 @@ p{margin:0 0 1em}
 .yt.on img{position:absolute;top:0;left:0;width:100%;aspect-ratio:16/9;height:auto;z-index:3;pointer-events:none;transition:opacity .45s}
 .yt.on.playing img{opacity:0}
 .yt-shield{position:absolute;top:0;left:0;width:100%;aspect-ratio:16/9;z-index:4;cursor:pointer;background:transparent}
+/* our scrubber, replacing YouTube's. height MUST include the padding — border-box is global */
+.yt-bar{display:flex;align-items:center;gap:clamp(12px,1.6vw,20px);padding-top:6px}
+.yt-seek{flex:1;min-width:0;height:32px;padding:15px 0;background:rgba(239,230,214,.14);background-clip:content-box;position:relative;cursor:pointer;touch-action:none;outline:none}
+.yt-seek:hover,.yt-seek.drag,.yt-seek:focus-visible{background-color:rgba(239,230,214,.3)}
+.yt-seek b{position:absolute;left:0;top:15px;bottom:15px;width:0;background:var(--gold)}
+.yt-seek b::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--gold);transform:scale(0);transition:transform .18s}
+.yt-seek:hover b::after,.yt-seek.drag b::after,.yt-seek:focus-visible b::after{transform:scale(1)}
+.yt-time{font-size:12px;letter-spacing:.1em;color:var(--paper-2);font-variant-numeric:tabular-nums;white-space:nowrap}
 .yt-play{position:absolute;left:50%;top:calc(50% - 30px);transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;border:1px solid var(--gold);background:rgba(11,8,9,.55);color:var(--gold);font-size:18px;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(4px);transition:background .3s,color .3s}
 .yt.on .yt-play{z-index:5;pointer-events:none;transition:opacity .35s}
 .yt.on.playing .yt-play{opacity:0}

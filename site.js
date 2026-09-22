@@ -121,16 +121,18 @@
   // ---- watch: swipeable row of YouTube sets; iframe only on click ----
   // A figure with data-sets="start-end,start-end" (seconds, end optional) plays ONLY those windows, in order:
   // when a window ends it jumps to the next one, and stops after the last. That is how his parts of a longer stream play.
-  let ytPlayer=null, ytPoll=null, ytFig=null, ytWin=0;
+  let ytPlayer=null, ytPoll=null, ytFig=null, ytWin=0, ytTick=null;
   // Only tear down the timer and the player when THIS figure is the one that owns them.
   // It used to clear ytPoll unconditionally, so unloading any off-screen slide killed the
   // set-to-set hand-off of the video that was actually playing.
   const ytUnload=f=>{
     if(ytFig===f){
       if(ytPoll){ clearInterval(ytPoll); ytPoll=null; }
+      if(ytTick){ clearInterval(ytTick); ytTick=null; }
       if(ytPlayer){ try{ytPlayer.destroy();}catch(_){ } }
       ytPlayer=null; ytFig=null;
     }
+    const b=f.querySelector('.yt-bar'); if(b) b.remove();
     const i=f.querySelector('iframe'); if(i) i.remove();
     const h=f.querySelector('.yt-host'); if(h) h.remove();
     const s=f.querySelector('.yt-shield'); if(s) s.remove();
@@ -149,6 +151,44 @@
     shield.addEventListener('click',()=>{ if(!ytPlayer||ytFig!==f) return;
       if(f.classList.contains('playing')) ytPlayer.pauseVideo(); else ytPlayer.playVideo(); });
     f.appendChild(shield);
+
+    // our own scrubber, because controls:0 leaves the viewer no way to move.
+    // It spans the CURRENT SET, not the whole two-hour stream, so dragging can never
+    // land him in another DJ's hour. Falls back to set-start → end-of-video while the
+    // end times are still missing.
+    const bar=document.createElement('div'); bar.className='yt-bar';
+    const yseek=document.createElement('div'); yseek.className='yt-seek';
+    yseek.tabIndex=0; yseek.setAttribute('role','slider'); yseek.setAttribute('aria-label','Seek within this set');
+    const yfill=document.createElement('b'); yseek.appendChild(yfill);
+    const ytime=document.createElement('div'); ytime.className='yt-time'; ytime.textContent='0:00 / --:--';
+    bar.append(yseek,ytime);
+    f.insertBefore(bar,f.querySelector('figcaption'));
+
+    const fmtS=s=>{ s=Math.max(0,Math.floor(s)); const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
+      return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0'); };
+    const bounds=()=>{ const cw=sets[ytWin];
+      const dur=(ytPlayer&&ytPlayer.getDuration&&ytPlayer.getDuration())||0;
+      const a=cw?cw.start:0, b=(cw&&cw.end!=null)?cw.end:(dur||a+1);
+      return [a,Math.max(b,a+1)]; };
+    let ydrag=false;
+    const ratioAtX=x=>{ const r=yseek.getBoundingClientRect(); return Math.min(1,Math.max(0,(x-r.left)/r.width)); };
+    const paintBar=()=>{ if(!ytPlayer||!ytPlayer.getCurrentTime||ydrag) return;
+      const t=ytPlayer.getCurrentTime(), [a,b]=bounds();
+      yfill.style.width=(Math.min(1,Math.max(0,(t-a)/(b-a)))*100)+'%';
+      ytime.textContent=fmtS(t-a)+' / '+fmtS(b-a); };
+    ytTick=setInterval(paintBar,250); paintBar();
+
+    yseek.addEventListener('pointerdown',e=>{ if(!ytPlayer) return; ydrag=true; yseek.classList.add('drag');
+      try{yseek.setPointerCapture(e.pointerId);}catch(_){ } yfill.style.width=(ratioAtX(e.clientX)*100)+'%'; e.preventDefault(); });
+    yseek.addEventListener('pointermove',e=>{ if(ydrag) yfill.style.width=(ratioAtX(e.clientX)*100)+'%'; });
+    const yEnd=e=>{ if(!ydrag) return; ydrag=false; yseek.classList.remove('drag');
+      const [a,b]=bounds(); ytPlayer.seekTo(a+ratioAtX(e.clientX)*(b-a),true); paintBar(); };
+    yseek.addEventListener('pointerup',yEnd);
+    yseek.addEventListener('pointercancel',()=>{ ydrag=false; yseek.classList.remove('drag'); });
+    yseek.addEventListener('keydown',e=>{ const step={ArrowRight:15,ArrowLeft:-15,PageUp:60,PageDown:-60}[e.key];
+      if(step===undefined||!ytPlayer) return; e.preventDefault();
+      const [a,b]=bounds(); ytPlayer.seekTo(Math.min(b,Math.max(a,ytPlayer.getCurrentTime()+step)),true); paintBar(); });
+
     paintCues(f,ytWin);
     const boot=()=>{
       // controls:0 + the shield below = no YouTube chrome at all: no title, no logo,
