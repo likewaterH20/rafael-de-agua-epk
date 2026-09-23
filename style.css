@@ -126,7 +126,13 @@ p{margin:0 0 1em}
 @keyframes mq{to{transform:translateX(-50%)}}
 
 /* sections */
-.sec{padding:clamp(52px,7vw,104px) var(--gutter);position:relative}
+/* 🚨 "way too much negative space ... it looks all too blended".
+   Two halves of one problem: 72+72 = 144px of dead space between sections, and no
+   boundary anywhere, so the space read as void instead of breathing room.
+   Padding comes down, and EVERY OTHER section sits on a lifted band — a rule applied
+   across the page, not a one-off inverted section. */
+.sec{padding:clamp(44px,5.2vw,76px) var(--gutter);position:relative}
+.sec:nth-of-type(even){background:var(--ink)}
 .sec>*+*{margin-top:var(--stack)}
 /* number stacked above the title, a hairline opening each section, aligned to the 760 column */
 .sec-head{max-width:760px;border-top:1px solid var(--line);padding-top:16px}
