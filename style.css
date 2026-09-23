@@ -88,7 +88,7 @@ p{margin:0 0 1em}
 .hero{position:relative;min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;align-items:end;padding:0;overflow:clip}
 /* bottom padding must clear the absolutely-positioned .hero-meta band
    (meta height ~54 + its --gutter offset), or the copy runs into it on a short hero */
-.hero-copy{padding:140px var(--gutter) 150px;position:relative;z-index:2}
+.hero-copy{padding:140px var(--gutter) 200px;position:relative;z-index:2}
 .hero-title{font-family:var(--name);font-size:clamp(58px,9.8vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
 /* 🚨 Sized off the COLUMN, not the viewport. Above 900px .hero-copy is only ~45vw wide,
    so 11vw wrapped "De Agua" to "De Agu / a", which pushed the hero past 100svh and
@@ -98,7 +98,7 @@ p{margin:0 0 1em}
 .hero-title .ch{display:inline-block;will-change:transform}
 .nav .book{transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
 .hero-title .l2{display:block;padding-left:.9em}
-.hero-sub{max-width:44ch;font-size:clamp(17px,1.3vw,19px);color:var(--paper)}
+.hero-sub{max-width:44ch;margin-bottom:0;font-size:clamp(17px,1.3vw,19px);color:var(--paper)}   /* its 1em trailing margin collapsed unpredictably into the meta gap */
 .hero-photo{position:relative;height:100svh;min-height:640px}
 .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 12%;filter:grayscale(.1) contrast(1.05)}
 .hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,rgba(11,8,9,.35) 28%,transparent 60%),linear-gradient(0deg,var(--bg) 0%,transparent 40%)}
@@ -108,14 +108,14 @@ p{margin:0 0 1em}
    de-cluttering; no separators, no extra marks. */
 .hero-meta{position:absolute;left:0;right:0;bottom:var(--gutter);display:flex;justify-content:center;text-align:center;gap:clamp(30px,5.5vw,72px);z-index:3;flex-wrap:nowrap}
 .hero-meta div{line-height:1.4;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);min-width:0;white-space:nowrap}
-.hero-meta strong{display:block;color:var(--paper);font-weight:400;margin-top:4px;line-height:1.4}
+.hero-meta strong{display:block;color:var(--paper);font-weight:400;margin-top:11px;line-height:1.55}
 @media (max-width:900px){
   .hero{grid-template-columns:1fr;align-items:start}
   .hero-photo{position:absolute;inset:0;height:100%;z-index:0}
   .hero-photo::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(11,8,9,.6) 55%,rgba(11,8,9,.2) 100%)}
   .hero{overflow:visible;min-height:100svh;height:auto}
   .hero-copy{padding-top:52svh;padding-bottom:0;z-index:2}   /* meta is in flow below 900, it carries its own top padding */
-  .hero-meta{position:static;padding:28px var(--gutter) 0;gap:clamp(16px,5vw,34px);flex-wrap:nowrap}
+  .hero-meta{position:static;padding:clamp(52px,8vw,68px) var(--gutter) 0;gap:clamp(16px,5vw,34px);flex-wrap:nowrap}
   .hero-meta div{line-height:1.4;font-size:clamp(10px,2.8vw,12px);letter-spacing:.2em}
 }
 
