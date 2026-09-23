@@ -78,6 +78,8 @@ p{margin:0 0 1em}
 @media (max-width:760px){.nav ul li:not(.keep){display:none}.nav ul{gap:clamp(7px,2vw,12px)}.nav li a{letter-spacing:clamp(.04em,.5vw,.12em);font-size:clamp(9px,2.5vw,11px);white-space:nowrap}
   .nav .book{padding:6px 10px}.nav .art{padding:6px 8px;border-color:rgba(239,230,214,.35)}
   .nav .mark{font-size:clamp(9px,2.5vw,11px);letter-spacing:.16em}.nav{padding:14px 14px}}
+/* the role line is 28 chars; at 320 it needs every pixel. Same tightening the nav uses. */
+@media (max-width:400px){.hero-copy .eyebrow{letter-spacing:.12em}}
 @media (max-width:380px){.nav ul{gap:6px}.nav li a{font-size:9px;letter-spacing:.03em}.nav .art{padding:6px 7px}.nav .book{padding:6px 9px}}
 #mixes,#watch,.sec,.contact{scroll-margin-top:64px}
 
