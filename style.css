@@ -82,9 +82,16 @@ p{margin:0 0 1em}
 #mixes,#watch,.sec,.contact{scroll-margin-top:64px}
 
 /* hero */
-.hero{position:relative;min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;align-items:end;padding:0 0 var(--gutter);overflow:clip}
+/* 🚨 No bottom padding. min-height is 100svh and box-sizing is border-box, but the photo
+   row is ALREADY 100svh tall, so a --gutter bottom pad made the hero 100svh+55 and pushed
+   .hero-meta below the fold — it read as the meta being sliced off. */
+.hero{position:relative;min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;align-items:end;padding:0;overflow:clip}
 .hero-copy{padding:140px var(--gutter) 96px;position:relative;z-index:2}
-.hero-title{font-family:var(--name);font-size:clamp(64px,11vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
+.hero-title{font-family:var(--name);font-size:clamp(58px,9.8vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
+/* 🚨 Sized off the COLUMN, not the viewport. Above 900px .hero-copy is only ~45vw wide,
+   so 11vw wrapped "De Agua" to "De Agu / a", which pushed the hero past 100svh and
+   dropped .hero-meta below the fold. "De Agua" measures 4.58em incl. the .9em indent,
+   so the ceiling is (0.55vw - 2*gutter)/4.58 ≈ 9.83vw. */
 /* each letter moves on its own — the name is water */
 .hero-title .ch{display:inline-block;will-change:transform}
 .nav .book{transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
