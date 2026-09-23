@@ -5,7 +5,7 @@ Last updated Sep 22 2026.
 
 ---
 
-## 🚨 Read this first: 26 commits are NOT pushed
+## 🚨 Read this first: 31 commits are NOT pushed
 
 **The live site is running the version from `f873c7f`. Everything after that is local only.**
 
@@ -79,8 +79,8 @@ Everything is tokens at the top of `style.css`. Change the token, not the instan
 | `--line` | `rgba(0,168,162,.2)` | every hairline |
 | `--stack` | `clamp(26px,3.4vw,48px)` | **the one vertical gap**, via `.sec>*+*` |
 | `--gutter` | `clamp(20px,5vw,72px)` | page margin |
-| `--name` | Bodoni Moda | **the hero name only** |
-| `--display` | Instrument Serif | section titles |
+| `--name` | Bodoni Moda | **the hero name only — the only serif and the only italic on the site** |
+| `--display` | Space Grotesk | section titles — the SAME family as `--body` |
 | `--body` | Space Grotesk | everything read |
 
 **Type rules that are easy to break again:**
@@ -88,6 +88,8 @@ Everything is tokens at the top of `style.css`. Change the token, not the instan
 - `button,input,select,textarea{font-family:inherit}` — 🚨 buttons do NOT inherit the page font. Without this, **Arial renders** on the play glyphs.
 - **One label style:** 12px / `.2em` uppercase. `.3em` only for the wordmark and marquee.
 - **Line-height ladder, four steps only:** `0.85` hero name · `1.1` display · `1.4` titles + labels · `1.6` body. Audit by RATIO (lineHeight ÷ fontSize), never by px value.
+- 🚨 **Space Grotesk has no italic.** Section-title emphasis is `font-weight:700`, same colour. Any `font-style:italic` outside `.hero-title` is a browser-synthesized skew and is a bug — check with `getComputedStyle(el).fontStyle`.
+- **Tracking is the modern-luxury move:** `-.03em` on display sizes, `-.02em` on the mid-size display items.
 - **Three text colours:** `--paper`, `--gold`, `--paper-2`. A fourth is an accident.
 - Buttons that are really text (`.bio-toggle`, `.yt-cue`) need `text-align:left` — buttons default to centre.
 
@@ -95,6 +97,7 @@ Everything is tokens at the top of `style.css`. Change the token, not the instan
 
 - **Gold is the accent, teal stays a whisper.** He tried a full teal accent and pulled it back: *"lets keep it how it was with the yellow accent and keep the blue accent very minimal"*.
 - **Bodoni is for the hero name only.** Its hairlines vanish at label sizes on black; at 190px they're the point.
+- **One sans for everything else.** He killed Instrument Serif with *"whats the deal with this font lets get something nicer and we need the site to look super modern and clean sleek and luxury"* — for him modern luxury means a neutral sans, tight tracking, contrast from size and weight. Don't re-propose an editorial serif.
 - **No two-tone headings.** Section titles are one colour; emphasis is the italic, not a second colour.
 - **One label style:** 12px / `.2em` uppercase. `.3em` only for the wordmark and marquee.
 - **Every section: same padding, same `--stack` gaps, same 760px column, same 42px left edge.**
@@ -126,8 +129,10 @@ Everything is tokens at the top of `style.css`. Change the token, not the instan
 - **End times are still missing** (`1080-,4290-`), so a set plays on into the next DJ and the scrubber can only tighten its left edge. Six timestamps from him fixes it.
 - 🚨 **Test with a stubbed `window.YT`, never a real embed** — it sounds on his speakers before any mute lands. To eyeball the frame, inject a throwaway iframe with the same params **plus `&mute=1`**, screenshot, remove. Reload the page before re-stubbing, or the live player is still the old stub.
 
-**Artist image (05).** A *cinema frame*: one shot at a time in a 420px 4:5 stage, slowly drifting/zooming, auto-crossfading every 5.6s, with a six-thumb rail beneath. **Permanently black and white** — an earlier click-for-colour toggle was removed at his request, don't reinstate it. The timer pauses on `visibilitychange`; drift is off under reduced-motion. Adding a shot = another `<img>` in `#cine-stage`; the rail builds itself.
-🚨 **The six `artist-0N.jpg` files are 768–1024px** — they were pasted, not on his Mac (hash-matched against 1,386 local images, nothing closer than distance 21). Fine at 420px, soft on retina. **Ask him for the originals.** `artist-decks.jpg` / `artist-portrait.jpg` are still in `assets/` but unused.
+**Artist image (05).** **Two frames on screen, slide for the rest.** `.artist-strip` reuses the **same `.slideshow`/`.gallery` strip as In the room** — figures at `flex:0 0 calc(50% - 7px)`, `aspect-ratio:4/5`, `scroll-snap-type:x mandatory`. Drag, wheel, arrow keys, touch and the lightbox all come from that shared code; there is no separate carousel here. **Permanently black and white** (`filter:grayscale(1)`) — an earlier click-for-colour toggle was removed at his request, don't reinstate it. Adding a shot = another `<figure>` in the strip.
+🚨 **The cinema frame is GONE** (stage, 15s Ken-Burns drift, 5.6s crossfade timer, thumb rail) — *"the images show display like two images at the same time and you slide to view the rest"*. This reverses his earlier "i like Cinema frame" pick; don't restore it.
+🚨 **Because the section renders greyscale, GRADE THESE IN GREYSCALE.** `artist-05/06` are the studio pair on a pale cyc; they were graded in colour to ~112 mean and he called them *"super over exposed"* even though nothing was clipped. Now **85 / 89** against the club frames' **62–65**. Pull only what is above a knee so the backdrop moves and he doesn't — a global brightness pull makes mud and a compensating S-curve crushes his jacket. Recipe in the project memory.
+🚨 **The `artist-0N.jpg` files are 768–1024px** — pasted, not on his Mac (hash-matched against 1,386 local images, nothing closer than distance 21). **Ask him for the originals.** `artist-04.jpg` (drink at the mixer) was pulled from the strip on his call but is still on disk, as are the unused `artist-decks.jpg` / `artist-portrait.jpg`. Live strip is **01, 02, 03, 05, 06**.
 
 **In the room.** A 21s muted 16:9 loop on top, with 13 photos underneath as a free-scrolling strip (`clamp(150px,19vw,210px)` thumbs). No dots, counter, arrows, paging or autoplay. Drag, wheel, arrow keys and touch all move it; the wheel handler releases the page at either end. Click opens the lightbox.
 
@@ -149,7 +154,9 @@ s=ImageStat.Stat(Image.open(p).convert('RGB'))
 mean=sum(s.mean)/3; sd=sum(s.stddev)/3     # exposure, contrast
 ```
 
-Current targets: **club frames ~61 mean / ~58 sd**, **studio frames ~112 / ~70**, **hero portrait 34.9 / 40.8** (dark on purpose, but with contrast so his face has shape).
+Current targets: **club frames ~61 mean / ~58 sd**, **hero portrait 34.9 / 40.8** (dark on purpose, but with contrast so his face has shape).
+
+🚨 **The Artist section is the exception: it renders `grayscale(1)`, so measure `im.convert('L')` there, not RGB.** Its studio pair sits at **85 / 89**, NOT the ~112 that looked right in colour — he called that *"super over exposed"*. Never chase a perfect match to the club frames either; a studio wall should sit lighter, just not by half the scale (~20 points reads as intentional, 49 flashes).
 
 🚨 **Never force every image to the same mean.** A dark subject on a white cyc cannot average the same as one in a black club — the mean is dominated by background. I tried it and turned the studio backdrop to grey mud. Grade for punch, then **render a greyscale thumbnail and LOOK at it** before shipping.
 
@@ -195,12 +202,13 @@ Current targets: **club frames ~61 mean / ~58 sd**, **studio frames ~112 / ~70**
 
 **Deploys are paused** and 26 commits are queued. The aesthetic pass is what's unpushed.
 
-**His open request, not yet done:** he pointed at a section title (`02 / 07  DJ sets`, set in Instrument Serif) and said:
+**Done since the last handoff, all local:**
 
-> *"whats the deal with this font lets get something nicer and we need the site to look super modern and clean sleek and luxury"*
+- `1492d40` **Type: Instrument Serif dropped, every title now Space Grotesk.** Two typefaces on the site. Emphasis is weight 700, not an italic and not a second colour. `01 / 07` dropped to the one label style.
+- `88b68bb` **Artist studio pair regraded for the greyscale render** (111→85, 113→89).
+- `cb4c279` **Artist image is a two-up sliding strip**, cinema frame deleted.
+- `cd8219a` **`artist-04` pulled from the strip.**
 
-Read that the way you'd read his "whats the deal with this R?" — it means **he doesn't like it, change it**, not "explain it to me". Instrument Serif is editorial and classical; he is asking for modern-luxury, which in practice means a neutral sans, tight tracking, contrast carried by size and weight rather than by a second colour or an italic.
-
-The direction I was about to take, for what it's worth: **drop Instrument Serif entirely and set section titles in Space Grotesk** at 500 weight with slightly negative tracking, keeping Bodoni for the hero name only. That leaves two typefaces on the whole site and is the single-sans playbook most modern luxury houses use. Build it, show him, expect him to cut it back — [[three passes]] is the pattern.
+**Known, flagged, not fixed:** at ~800px the hero name wraps `De Agu / a`. Pre-existing.
 
 **Also still open, needs him:** the six Sounds Sessions end times; the high-res originals of the six artist photos; updating the website link on Instagram / SoundCloud / YouTube / LinkedIn; the one-sheet PDF has no URL on it; ~4.5 MB first load.
