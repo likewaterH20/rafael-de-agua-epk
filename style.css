@@ -298,7 +298,7 @@ p{margin:0 0 1em}
 .artist-strip .gallery{height:auto;gap:14px;scroll-snap-type:x mandatory;padding-bottom:2px}
 .artist-strip .gallery figure{flex:0 0 calc(50% - 7px);height:auto;aspect-ratio:4/5;scroll-snap-align:start;
   border:1px solid var(--line);background:var(--ink)}
-.artist-strip .gallery img{filter:grayscale(1) contrast(1.04);transition:opacity .3s}
+.artist-strip .gallery img{filter:grayscale(1);transition:opacity .3s}   /* HIS files are already graded B&W - no contrast bump on top of his grade */
 .artist-strip .gallery figure:hover img{opacity:.85}
 
 /* press kit */
