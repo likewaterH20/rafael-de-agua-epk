@@ -92,14 +92,18 @@ p{margin:0 0 1em}
    (meta height ~54 + its --gutter offset), or the copy runs into it on a short hero */
 .hero-copy{padding:140px var(--gutter) 200px;position:relative;z-index:2}
 .hero-title{font-family:var(--name);font-size:clamp(58px,9.8vw,190px);line-height:.86;margin:14px 0 26px;cursor:default;-webkit-user-select:none;user-select:none}
-/* 🚨 Sized off the COLUMN, not the viewport. Above 900px .hero-copy is only ~45vw wide,
-   so 11vw wrapped "De Agua" to "De Agu / a", which pushed the hero past 100svh and
-   dropped .hero-meta below the fold. "De Agua" measures 4.58em incl. the .9em indent,
-   so the ceiling is (0.55vw - 2*gutter)/4.58 ≈ 9.83vw. */
+/* 🚨 Sized off the COLUMN, not the viewport. At 900px the hero becomes a 1.1fr .9fr grid
+   and .hero-copy collapses from full width to ~45vw, so the ceiling is different on each
+   side of that breakpoint and the ONE-value version wrapped "De Agua" to "De Agu / a".
+   🚨 Bodoni Moda is an optical-size variable font: "De Agua" + the .9em indent is 4.58em
+   at 58px but 4.68em at 190px, so a ratio measured at one size under-reports at another.
+   Below 900 the column is ~full width and 9.8vw has masses of room. Above 900 the ceiling
+   is (0.55vw - 2*gutter)/4.68, and 9vw leaves a real margin instead of a hairline fit. */
 /* each letter moves on its own — the name is water */
 .hero-title .ch{display:inline-block;will-change:transform}
 .nav .book{transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
 .hero-title .l2{display:block;padding-left:.9em}
+@media (min-width:901px){.hero-title{font-size:clamp(58px,9vw,190px)}}   /* the two-column copy well is only ~45vw */
 .hero-sub{max-width:44ch;margin-bottom:0;font-size:clamp(17px,1.3vw,19px);color:var(--paper)}   /* its 1em trailing margin collapsed unpredictably into the meta gap */
 .hero-photo{position:relative;height:100svh;min-height:640px}
 .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 12%;filter:grayscale(.1) contrast(1.05)}
