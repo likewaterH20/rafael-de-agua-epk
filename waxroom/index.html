@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wax Room at West &amp; Co.</title>
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="The Wax Room at West &amp; Co.">
+<meta property="og:description" content="A listening room on the Hudson, and the music program to run it. Prepared for the West &amp; Co. team by Rafael De Agua.">
+<meta property="og:image" content="https://rafaeldeagua.com/waxroom/img/og-card.jpg">
+<meta property="og:url" content="https://rafaeldeagua.com/waxroom/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0c09;
+    --espresso:#171310;
+    --panel:#1e1914;
+    --gold:#c9a24b;
+    --gold-bright:#e8c76f;
+    --gold-dim:#8a6f38;
+    --cream:#efe6d0;
+    --cream-dim:#b9ad94;
+    --hair:rgba(201,162,75,.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--cream);
+    font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  }
+  .label{font-family:'Jost',sans-serif;font-weight:400;font-size:13px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold)}
+  h1,h2,h3{font-family:'Cinzel',serif;font-weight:500;color:var(--cream)}
+  a{color:var(--gold-bright);text-decoration:none}
+  section{position:relative;padding:96px 7vw}
+  .rule{width:64px;height:1px;background:var(--gold);margin:24px 0}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:absolute;top:0;left:0;right:0;z-index:5;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:26px 5vw;border-bottom:1px solid rgba(201,162,75,.16);
+  }
+  nav .wordmark{font-family:'Cinzel',serif;font-size:16px;letter-spacing:.34em;color:var(--gold-bright)}
+  nav .links{display:flex;gap:34px;font-family:'Jost',sans-serif;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase}
+  nav .links a{color:var(--cream-dim)}
+  nav .links a:hover{color:var(--gold-bright)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:120px 6vw 60px;position:relative;
+    background:radial-gradient(ellipse 90% 70% at 50% 110%, #241c12 0%, var(--ink) 60%);
+  }
+  .fans{position:absolute;inset:0;overflow:hidden;opacity:.16}
+  .hero-inner{position:relative;z-index:2;max-width:900px}
+  .hero h1{font-size:clamp(44px,9vw,104px);letter-spacing:.14em;line-height:1.04}
+  .hero h1 .the{display:block;font-size:.3em;letter-spacing:.62em;color:var(--gold);margin-bottom:14px}
+  .hero .at{margin-top:26px;font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--cream-dim)}
+  .hero .at b{color:var(--gold-bright);font-weight:500}
+  .hero-sub{margin-top:30px;font-size:clamp(20px,2.5vw,27px);font-style:italic;color:var(--cream-dim)}
+
+  /* ---------- THE NIGHT ---------- */
+  .night{padding-top:80px}
+  .night-head{text-align:center;max-width:760px;margin:0 auto 70px}
+  .night-head h2{font-size:clamp(28px,4vw,46px);letter-spacing:.08em;margin-top:16px}
+  .night-head p{color:var(--cream-dim);font-size:20px;margin-top:16px}
+  .arc{position:relative}
+  .arc::before{content:"";position:absolute;left:0;right:0;top:7px;height:1px;background:linear-gradient(90deg,transparent,var(--gold) 12%,var(--gold) 88%,transparent)}
+  .arc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+  .stop{padding-top:40px;position:relative;display:flex;flex-direction:column;align-items:flex-start}
+  .stop::before{content:"";position:absolute;top:0;left:0;width:15px;height:15px;border-radius:50%;border:1px solid var(--gold);background:var(--ink);transition:background .4s}
+  .stop:hover::before{background:var(--gold)}
+  .stop .time{font-family:'Jost',sans-serif;font-size:12.5px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+  .stop h3{font-size:22px;margin:12px 0 6px;letter-spacing:.05em}
+  .stop .genre{font-style:italic;color:var(--gold-bright);font-size:18px;margin-bottom:8px}
+  .stop p{color:var(--cream-dim);font-size:17.5px;line-height:1.55}
+  .arc-footer{margin-top:64px;text-align:center;font-size:clamp(19px,2.3vw,24px);font-style:italic;color:var(--cream)}
+  .arc-footer span{color:var(--gold-bright)}
+
+  /* ---------- VINYL PLAYERS ---------- */
+  .deck{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:22px}
+  .vinyl{
+    width:64px;height:64px;border-radius:50%;flex:none;cursor:pointer;position:relative;
+    background:
+      radial-gradient(circle at 35% 32%, rgba(255,255,255,.10), transparent 45%),
+      repeating-radial-gradient(circle at 50% 50%, #0b0a08 0 1.5px, #191510 1.5px 3px);
+    border:1px solid rgba(201,162,75,.4);
+    box-shadow:0 6px 22px rgba(0,0,0,.6);
+    transition:transform .45s ease, box-shadow .45s ease;
+  }
+  .vinyl:hover{transform:scale(1.07);box-shadow:0 8px 30px rgba(201,162,75,.25)}
+  .vinyl::before{ /* gold label */
+    content:"";position:absolute;inset:21px;border-radius:50%;
+    background:radial-gradient(circle,#e8c76f 0 34%,#a8853d 100%);
+  }
+  .vinyl::after{ /* spindle */
+    content:"";position:absolute;top:50%;left:50%;width:4px;height:4px;margin:-2px 0 0 -2px;
+    border-radius:50%;background:var(--ink);
+  }
+  .vinyl .tri{
+    position:absolute;top:50%;left:50%;transform:translate(-40%,-50%);z-index:2;
+    width:0;height:0;border-left:9px solid var(--ink);border-top:6px solid transparent;border-bottom:6px solid transparent;
+  }
+  .vinyl.playing{animation:spin 1.8s linear infinite}
+  .vinyl.playing .tri{border-left:none;border-right:none;width:7px;height:11px;transform:translate(-50%,-50%);
+    border-left:2.5px solid var(--ink);border-right:2.5px solid var(--ink)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .deck .dtxt{font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);line-height:1.9}
+  .deck .dtxt small{display:block;color:var(--cream-dim);letter-spacing:.22em;font-size:11px}
+  .deck.pending{display:none}
+  body[data-preview] .deck.pending{display:flex;opacity:.45}
+
+  /* ---------- ROOM STRIP ---------- */
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 7vw 96px}
+  .strip figure{position:relative;overflow:hidden;background:#000}
+  .strip img{width:100%;height:38vh;object-fit:cover;display:block;filter:saturate(.92);transition:transform 1.1s cubic-bezier(.2,.6,.2,1)}
+  .strip figure:hover img{transform:scale(1.05)}
+  .strip figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 15px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+
+  /* ---------- OCTOBER CALENDAR ---------- */
+  .month{background:radial-gradient(ellipse 85% 70% at 50% 45%, #191510 0%, var(--ink) 80%)}
+  .month-head{text-align:center;margin-bottom:56px}
+  .month-head h2{font-size:clamp(28px,4vw,46px);letter-spacing:.08em;margin-top:16px}
+  .month-head .mm{font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.5em;color:var(--cream-dim);text-transform:uppercase;margin-top:14px}
+  .cal{max-width:1080px;margin:0 auto;border:1px solid var(--hair)}
+  .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--hair);background:var(--panel)}
+  .cal-dow div{padding:14px 8px;text-align:center;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+  .cell{
+    min-height:96px;padding:10px 12px;border-right:1px solid rgba(201,162,75,.12);border-bottom:1px solid rgba(201,162,75,.12);
+    position:relative;transition:background .35s;
+  }
+  .cell:nth-child(7n){border-right:none}
+  .cell .d{font-family:'Cinzel',serif;font-size:16.5px;color:var(--cream-dim)}
+  .cell.empty{background:rgba(0,0,0,.25)}
+  .cell.prog{background:linear-gradient(160deg,rgba(201,162,75,.10),rgba(201,162,75,.02))}
+  .cell.prog .d{color:var(--gold-bright)}
+  .cell.prog:hover{background:rgba(201,162,75,.16)}
+  .cell .nn{
+    margin-top:10px;font-family:'Jost',sans-serif;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--cream);line-height:1.6;
+  }
+  .cell .nn i{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;text-transform:none;letter-spacing:0;
+    font-size:15.5px;color:var(--cream-dim)}
+  .cell .mark{position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%}
+  .mark.live{background:var(--gold-bright)}
+  .mark.guest{border:1px solid var(--gold-bright)}
+  .mark.curated{background:none;border-top:1px solid var(--gold-bright);border-radius:0;height:0;width:12px;top:16px}
+  .cell.special{outline:1px solid var(--gold);outline-offset:-6px}
+  .cal-legend{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-family:'Jost',sans-serif;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim)}
+  .cal-legend span{display:flex;align-items:center;gap:10px}
+  .cal-legend .mark{position:static}
+  .cal-stats{display:flex;justify-content:center;flex-wrap:wrap;margin:56px auto 0;border:1px solid var(--hair);max-width:1080px}
+  .cal-stats div{padding:24px 18px;text-align:center;flex:1;min-width:150px}
+  .cal-stats div + div{border-left:1px solid var(--hair)}
+  .cal-stats b{font-family:'Cinzel',serif;display:block;font-size:30px;font-weight:500;color:var(--gold-bright)}
+  .cal-stats span{font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim)}
+
+  /* ---------- IG / CONTENT ---------- */
+  .feed{background:radial-gradient(ellipse 85% 70% at 50% 35%, #1d1813 0%, var(--ink) 78%)}
+  .feed-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px;margin-bottom:60px}
+  .feed-head h2{font-size:clamp(28px,4vw,46px);letter-spacing:.08em;margin-top:16px}
+  .feed-head p{max-width:460px;color:var(--cream-dim);font-size:20px}
+  .flyers{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;max-width:1150px;margin:0 auto}
+  .phone{
+    aspect-ratio:9/16;position:relative;overflow:hidden;border:1px solid var(--hair);
+    border-radius:22px;background:#000;
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+    transition:transform .5s ease;
+  }
+  .phone:hover{transform:translateY(-10px)}
+  .phone .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.5) saturate(.9)}
+  .phone .deco-top{position:absolute;top:0;left:0;right:0;height:90px;opacity:.5}
+  .phone .inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:26px 22px;text-align:center}
+  .phone .brand{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--cream-dim)}
+  .phone .mid .kicker{font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-bright)}
+  .phone .mid h3{font-family:'Cinzel',serif;font-size:clamp(25px,2.7vw,36px);letter-spacing:.1em;line-height:1.2;margin:12px 0;color:var(--cream);text-shadow:0 2px 30px rgba(0,0,0,.8)}
+  .phone .mid .line{width:36px;height:1px;background:var(--gold);margin:0 auto 12px}
+  .phone .mid p{font-style:italic;color:var(--cream);font-size:17.5px}
+  .phone .foot{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);line-height:2}
+  .phone .foot b{color:var(--gold-bright);font-weight:500}
+  .feed-note{margin-top:56px;text-align:center;color:var(--cream-dim);font-style:italic;font-size:19px}
+  .feed-note b{color:var(--cream);font-weight:600}
+
+  /* ---------- PROGRAM (compressed proposal) ---------- */
+  .program-head{text-align:center;margin-bottom:64px}
+  .program-head h2{font-size:clamp(28px,4vw,46px);letter-spacing:.08em;margin-top:16px}
+  .jobs-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--hair);max-width:1150px;margin:0 auto}
+  .job{padding:40px 34px}
+  .job + .job{border-left:1px solid var(--hair)}
+  .job .num{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.5em;color:var(--gold-dim)}
+  .job h3{font-size:23px;letter-spacing:.1em;margin:16px 0 10px}
+  .job p{color:var(--cream-dim);font-size:18px;line-height:1.6}
+  .price-block{text-align:center;margin-top:80px}
+  .big-price{font-family:'Cinzel',serif;font-size:clamp(56px,9vw,110px);color:var(--gold-bright);line-height:1;text-shadow:0 0 60px rgba(201,162,75,.25)}
+  .big-price small{font-size:.24em;color:var(--cream-dim);letter-spacing:.2em}
+  .price-sub{margin-top:14px;font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--cream-dim)}
+  .price-sub b{color:var(--gold);font-weight:500}
+  .math-strip{
+    margin:50px auto 0;max-width:860px;display:flex;justify-content:center;flex-wrap:wrap;
+    border:1px solid var(--hair);
+  }
+  .math-strip div{padding:22px 34px;font-size:18px;color:var(--cream-dim)}
+  .math-strip div + div{border-left:1px solid var(--hair)}
+  .math-strip b{font-family:'Cinzel',serif;color:var(--cream);font-weight:500;display:block;font-size:22px;margin-top:4px}
+  .math-strip .tot b{color:var(--gold-bright)}
+  .fine{
+    max-width:860px;margin:56px auto 0;text-align:center;color:var(--cream-dim);
+    font-size:16.5px;font-style:italic;line-height:1.8;
+  }
+  .fine b{color:var(--cream);font-weight:600}
+
+  /* ---------- CTA ---------- */
+  .cta{text-align:center;padding:130px 7vw;background:radial-gradient(ellipse 80% 90% at 50% 0%, #241c12 0%, var(--ink) 65%)}
+  .cta h2{font-size:clamp(28px,4.6vw,52px);letter-spacing:.06em;max-width:880px;margin:0 auto;line-height:1.25}
+  .cta .sub{margin-top:26px;font-style:italic;color:var(--cream-dim);font-size:clamp(19px,2.3vw,25px)}
+  .sig{margin-top:60px}
+  .sig .name{font-family:'Cinzel',serif;font-size:28px;letter-spacing:.24em;color:var(--gold-bright)}
+  .sig .site{margin-top:12px;font-family:'Jost',sans-serif;font-size:12.5px;letter-spacing:.5em;color:var(--cream-dim)}
+
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+  .rv.on{opacity:1;transform:none}
+
+  @media(max-width:900px){
+    nav .links{display:none}
+    .arc-row{grid-template-columns:1fr 1fr;row-gap:50px}
+    .arc::before{display:none}
+    .strip{grid-template-columns:1fr 1fr}
+    .strip img{height:30vh}
+    .flyers{grid-template-columns:1fr;max-width:340px}
+    .jobs-grid{grid-template-columns:1fr}
+    .job + .job{border-left:none;border-top:1px solid var(--hair)}
+    .math-strip{flex-direction:column}
+    .math-strip div + div{border-left:none;border-top:1px solid var(--hair)}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wordmark">THE WAX ROOM</div>
+  <div class="links">
+    <a href="#night">The Night</a><a href="#room">The Room</a><a href="#month">October</a><a href="#feed">The Feed</a><a href="#program">The Program</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <svg class="fans" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <g id="fan">
+        <g stroke="#c9a24b" fill="none" stroke-width="1.1">
+          <path d="M0,0 L0,-150" transform="rotate(-72)"/><path d="M0,0 L0,-165" transform="rotate(-60)"/>
+          <path d="M0,0 L0,-178" transform="rotate(-48)"/><path d="M0,0 L0,-188" transform="rotate(-36)"/>
+          <path d="M0,0 L0,-195" transform="rotate(-24)"/><path d="M0,0 L0,-199" transform="rotate(-12)"/>
+          <path d="M0,0 L0,-200"/><path d="M0,0 L0,-199" transform="rotate(12)"/>
+          <path d="M0,0 L0,-195" transform="rotate(24)"/><path d="M0,0 L0,-188" transform="rotate(36)"/>
+          <path d="M0,0 L0,-178" transform="rotate(48)"/><path d="M0,0 L0,-165" transform="rotate(60)"/>
+          <path d="M0,0 L0,-150" transform="rotate(72)"/>
+          <circle cx="0" cy="0" r="22"/><circle cx="0" cy="0" r="10"/>
+        </g>
+      </g>
+      <pattern id="deco" width="440" height="480" patternUnits="userSpaceOnUse">
+        <use href="#fan" x="110" y="300"/>
+        <use href="#fan" x="330" y="540"/>
+        <use href="#fan" x="330" y="60"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#deco)"/>
+  </svg>
+  <div class="hero-inner">
+    <h1><span class="the">The</span>WAX ROOM</h1>
+    <div class="at">at <b>West &amp; Co.</b> · Port Imperial</div>
+    <p class="hero-sub">A listening room on the Hudson, and the music program to run it.<br>Prepared for the West &amp; Co. team by Rafael.</p>
+  </div>
+</header>
+
+<!-- ROOM STRIP -->
+<div class="strip" id="room">
+  <figure class="rv"><img src="img/menu.jpg" alt="The Wax Room gold-foil menu"><figcaption>The Mark</figcaption></figure>
+  <figure class="rv"><img src="img/room.jpg" alt="The listening room"><figcaption>The Library</figcaption></figure>
+  <figure class="rv"><img src="img/mixer.jpg" alt="DJ booth"><figcaption>The Booth</figcaption></figure>
+  <figure class="rv"><img src="img/dinner.jpg" alt="Dinner at the record wall"><figcaption>The Table</figcaption></figure>
+</div>
+
+<!-- THE NIGHT -->
+<section class="night" id="night">
+  <div class="night-head rv">
+    <div class="label">The Sound, In Your Words</div>
+    <h2>One Night, Four Movements</h2>
+    <p>You said Bungalow 8. Not one genre. One arc, read by someone who knows what time it is.</p>
+  </div>
+  <div class="arc rv">
+    <div class="arc-row">
+      <div class="stop">
+        <div class="time">Golden Hour</div>
+        <h3>The Warm-Up</h3>
+        <div class="genre">Jazz House</div>
+        <p>St Germain, Jazzanova. Brushed drums under conversation. The room breathes in.</p>
+        <div class="deck" data-src="audio/01-warmup.mp3"><div class="vinyl"><span class="tri"></span></div><div class="dtxt">Mix 01<small>90 seconds</small></div></div>
+      </div>
+      <div class="stop">
+        <div class="time">Dinner</div>
+        <h3>The Icons</h3>
+        <div class="genre">Glam '80s</div>
+        <p>Bowie, Talking Heads, Prince, Duran Duran, George Michael. Cool without trying.</p>
+        <div class="deck" data-src="audio/02-icons.mp3"><div class="vinyl"><span class="tri"></span></div><div class="dtxt">Mix 02<small>90 seconds</small></div></div>
+      </div>
+      <div class="stop">
+        <div class="time">Late Bar</div>
+        <h3>The Golden Era</h3>
+        <div class="genre">Classic Hip Hop</div>
+        <p>Tribe, De La Soul, EPMD, Common, Outkast. Lights down, heads nodding.</p>
+        <div class="deck" data-src="audio/03-goldenera.mp3"><div class="vinyl"><span class="tri"></span></div><div class="dtxt">Mix 03<small>90 seconds</small></div></div>
+      </div>
+      <div class="stop">
+        <div class="time">The Close</div>
+        <h3>The Send-Off</h3>
+        <div class="genre">Afrobeats</div>
+        <p>Energy without going full club. The hour people talk about in the parking lot.</p>
+        <div class="deck" data-src="audio/04-sendoff.mp3"><div class="vinyl"><span class="tri"></span></div><div class="dtxt">Mix 04<small>90 seconds</small></div></div>
+      </div>
+    </div>
+  </div>
+  <p class="arc-footer rv">An algorithm can't take a room from Bowie to EPMD to Burna Boy and make it feel inevitable.<br><span>A curator can.</span></p>
+</section>
+
+<!-- OCTOBER -->
+<section class="month" id="month">
+  <div class="month-head rv">
+    <div class="label">The First Month</div>
+    <h2>October, Already Programmed</h2>
+    <div class="mm">October · MMXXVI</div>
+  </div>
+  <div class="cal rv" id="cal"></div>
+  <div class="cal-legend rv">
+    <span><i class="mark live"></i> Live DJ</span>
+    <span><i class="mark guest"></i> Guest Selector</span>
+    <span><i class="mark curated"></i> Curated Playback</span>
+  </div>
+  <div class="cal-stats rv" id="calstats"></div>
+</section>
+
+<!-- THE FEED -->
+<section class="feed" id="feed">
+  <div class="feed-head rv">
+    <div>
+      <div class="label">The Feed</div>
+      <h2>What the Room Looks Like Online</h2>
+      <div class="rule"></div>
+    </div>
+    <p>Content built around the music, not food photos with a DJ in the background. A flyer for every night. A live shoot every month.</p>
+  </div>
+  <div class="flyers">
+    <div class="phone rv">
+      <div class="bg" style="background-image:url('img/room.jpg')"></div>
+      <svg class="deco-top" viewBox="0 0 300 90" preserveAspectRatio="xMidYMin slice"><use href="#fan" x="150" y="90" transform="scale(.45)" transform-origin="150 90" stroke="#c9a24b"/></svg>
+      <div class="inner">
+        <div class="brand">The Wax Room · at West &amp; Co.</div>
+        <div class="mid">
+          <div class="kicker">Friday · 8 PM</div>
+          <h3>NEEDLE<br>DROP</h3>
+          <div class="line"></div>
+          <p>Vinyl all night. Bowie to Outkast, in one arc.</p>
+        </div>
+        <div class="foot">45 Riverwalk Pl · Port Imperial<br><b>@westandconj</b></div>
+      </div>
+    </div>
+    <div class="phone rv">
+      <div class="bg" style="background-image:url('img/mixer.jpg')"></div>
+      <div class="inner">
+        <div class="brand">The Wax Room · at West &amp; Co.</div>
+        <div class="mid">
+          <div class="kicker">Saturday · Late</div>
+          <h3>THE<br>GOLDEN ERA</h3>
+          <div class="line"></div>
+          <p>Tribe. De La. EPMD. The late bar, done right.</p>
+        </div>
+        <div class="foot">Guest selector monthly<br><b>@westandconj</b></div>
+      </div>
+    </div>
+    <div class="phone rv">
+      <div class="bg" style="background-image:url('img/dinner.jpg')"></div>
+      <div class="inner">
+        <div class="brand">The Wax Room · at West &amp; Co.</div>
+        <div class="mid">
+          <div class="kicker">Sunday · Golden Hour</div>
+          <h3>LISTENING<br>DINNER</h3>
+          <div class="line"></div>
+          <p>Jazz house at conversation volume. Records with dinner.</p>
+        </div>
+        <div class="foot">Reserve the record wall<br><b>@westandconj</b></div>
+      </div>
+    </div>
+  </div>
+  <p class="feed-note rv">Sample flyers, made from the room's own footage. <b>Every night gets one before it's announced.</b></p>
+</section>
+
+<!-- THE PROGRAM -->
+<section id="program">
+  <div class="program-head rv">
+    <div class="label">The Proposal</div>
+    <h2>Three Jobs, Six Months, One Number</h2>
+  </div>
+  <div class="jobs-grid rv">
+    <div class="job">
+      <div class="num">01</div>
+      <h3>Consulting</h3>
+      <p>The sound identity. The full equipment spec: speakers, zoning, booth, signal chain. Room treatment that works with the design. West &amp; Co. buys the gear. I spec it, source it, and vet the quotes.</p>
+    </div>
+    <div class="job">
+      <div class="num">02</div>
+      <h3>Programming</h3>
+      <p>The weekly calendar. Playlists for every hour of the day, refreshed monthly. Booking and managing DJs. Running the talent budget. A monthly readout: what worked, what to cut.</p>
+    </div>
+    <div class="job">
+      <div class="num">03</div>
+      <h3>Marketing</h3>
+      <p>One live shoot a month. Flyers and story assets for every night. Every guest DJ pushes the night to their own audience.</p>
+    </div>
+  </div>
+  <div class="price-block rv">
+    <div class="big-price">$3,000<small> / month</small></div>
+    <div class="price-sub">Six months · DJ nights separate</div>
+    <p class="fine rv">A full month with four live nights lands around <b>$5,000</b>. Full terms in the PDF.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="rv">
+    <div class="label" style="margin-bottom:26px">The Next Step</div>
+    <h2>Walk the room with me and hear the system.</h2>
+    <p class="sub">Half hour, and I'll know exactly what it needs.<br>October is built. Say the word and the first flyer drops October&nbsp;1.</p>
+    <div class="sig">
+      <div class="name">RAFAEL</div>
+      <a class="site" href="https://rafaeldeagua.com" style="display:block;color:var(--cream-dim)">RAFAELDEAGUA.COM</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+  },{threshold:.15});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  /* ---- October calendar, built from the program ---- */
+  const h=(tag,cls,txt)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(txt!=null)el.textContent=txt;return el;};
+  const PROGRAM={
+    5:{name:'Needle Drop',   sub:'Vinyl · live DJ',        type:'live'},    // Friday
+    6:{name:'The Golden Era',sub:'Guest selector',          type:'guest'},   // Saturday
+    0:{name:'Listening Dinner',sub:'Jazz house · playback', type:'curated'}  // Sunday
+  };
+  const SPECIALS={31:{name:"All Hallows' Session",sub:'Halloween · live DJ',type:'live'}};
+  const YEAR=2026, MONTH=9; // October
+  (function(){
+    const cal=document.getElementById('cal');
+    const dow=h('div','cal-dow');
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>dow.appendChild(h('div',null,d)));
+    cal.appendChild(dow);
+    const grid=h('div','cal-grid');
+    const first=new Date(YEAR,MONTH,1).getDay();
+    const days=new Date(YEAR,MONTH+1,0).getDate();
+    const counts={live:0,guest:0,curated:0};
+    for(let i=0;i<first;i++) grid.appendChild(h('div','cell empty'));
+    for(let d=1;d<=days;d++){
+      const wd=new Date(YEAR,MONTH,d).getDay();
+      const night=SPECIALS[d]||PROGRAM[wd];
+      const cell=h('div','cell'+(night?' prog':'')+(SPECIALS[d]?' special':''));
+      cell.appendChild(h('span','d',d));
+      if(night){
+        counts[night.type]++;
+        cell.appendChild(h('i','mark '+night.type));
+        const nn=h('div','nn',night.name);
+        nn.appendChild(h('i',null,night.sub));
+        cell.appendChild(nn);
+      }
+      grid.appendChild(cell);
+    }
+    const tail=(7-(first+days)%7)%7;
+    for(let i=0;i<tail;i++) grid.appendChild(h('div','cell empty'));
+    cal.appendChild(grid);
+    const total=counts.live+counts.guest+counts.curated;
+    const stats=document.getElementById('calstats');
+    [[total,'Programmed nights'],[counts.live,'Live DJ nights'],[counts.guest,'Guest selectors'],[counts.curated,'Listening dinners'],[days,'Days of dayparts']]
+      .forEach(([n,l])=>{const s=h('div');s.appendChild(h('b',null,n));s.appendChild(h('span',null,l));stats.appendChild(s);});
+  })();
+
+  /* ---- Vinyl decks: playable when the mix file exists, one at a time ---- */
+  let current=null;
+  document.querySelectorAll('.deck').forEach(deck=>{
+    const src=deck.dataset.src, vinyl=deck.querySelector('.vinyl');
+    fetch(src,{method:'HEAD'}).then(r=>{if(!r.ok)deck.classList.add('pending');}).catch(()=>deck.classList.add('pending'));
+    const audio=new Audio(); audio.preload='none'; audio.src=src;
+    vinyl.addEventListener('click',()=>{
+      if(deck.classList.contains('pending'))return;
+      if(current&&current!==audio){current.pause();}
+      if(audio.paused){audio.play();current=audio;vinyl.classList.add('playing');}
+      else{audio.pause();}
+    });
+    audio.addEventListener('pause',()=>vinyl.classList.remove('playing'));
+    audio.addEventListener('ended',()=>vinyl.classList.remove('playing'));
+    audio.addEventListener('play',()=>vinyl.classList.add('playing'));
+  });
+</script>
+</body>
+</html>
